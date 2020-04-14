@@ -338,3 +338,252 @@ WAF offers many managed rules (based on industry best practices like OWASP top 1
 As a customer, we can define our custom conditions or use these managed rules to provide security for our application
 
 Custom rules for throttling (IP '123.x.x.x' can only trigger 4000 requests per second etc.) can also be defined at WAF layer and then custom error messages/pages could also be configured in services like Cloudfront which could then be returned to the end-user. All this happens without affecting the real back-end systems.
+
+S3
+==
+
+-   S3 Standard : Availability --- 4 9s (99.99%), Durability --- 11 9s (99.999999999 %)
+-   Global namespace (Bucket names should be unique)
+-   Minimum size of objects is 0 bytes, maximum is 5TB
+-   Files can be uploaded in buckets which are nothing but folders hostingd the files
+-   On successful upload, S3 returns a HTTP 200 status code
+-   By default all buckets are private
+
+S3 Consistency Model
+--------------------
+
+Read after write consistency for new PUT objects (Newly uploaded objects are guaranteed to be read immediately without any stale state or problems)
+
+Eventual consistency for overwrite PUTs and DELETEs (Modifications / deletions will eventually reflect latest state --- there could be a delay of some seconds)
+
+S3 Object Properties
+--------------------
+
+-   *Key* : Name of the object
+-   *Value* : Sequence of bytes/contents of the object
+-   *Versioning* : Version of the object
+-   *Metadata* : Objects can further have metadata (data about data) to classify the contents
+
+S3 Storage Tiers
+----------------
+
+S3 offers various storage tiers that help control cost, availability and durability of the data
+
+-   S3 Standard : This is the most costly alternative with 99.99% availability (probability that the object will be available when needed) and 99.999999999% durability (probability that data will not be lost)
+-   S3 IA (Infrequently accessed) : This still replicates data to different zones in a region but less costlier than standard. Retrieval fees are charged
+-   S3 IA --- 1 Zone : Multiple zones replication is not done and costs even lesser than S3 IA
+-   S3 Intelligent Tiering : Storage tiering is managed by AWS instead which uses Machine learning to decide on which tier to use for the bucket based on historical patterns of usage
+-   S3 Glacier : Used when cost has to be less but time of retrieval can be configurable ranging from minutes to hours
+-   S3 Glacier deep archive : This is cheapest option where retrieval time of more than 12 hours is acceptable. This is used for data which might be rarely needed and time of retrieval being around ~12 hours is still acceptable
+
+S3 Security Policies
+--------------------
+
+-   Access to S3 object/bucket can be controlled with ACL control lists or Bucket Policies
+-   Bucket policies work at bucket level BUT Access Control Lists can go all the way down to individual objects
+-   Access logging can be configured for S3 buckets which logs all access requests for S3, made by different users
+-   Encryption in transit is achieved by HTTPS (SSL / TLS)
+
+Encryption at rest is achieved in two ways
+
+Service Side encryption (Can be further managed by AWS in three ways)
+
+*i) Keys managed by S3 service for encryption (**SSE-S3**)*
+
+*ii) Keys provisioned by user in KMS (**SSE-KMS**)*
+
+*iii) User/Customer provided encryption keys can also be used (**SSE-C**)*
+
+Client Side encryption --- Client himself manages the encryption/decryption and uploads the encrypted data only
+
+S3 Versioning
+-------------
+
+-   S3 versioning can be used to maintain multiple copies of objects
+-   Once enabled, it cannot be disabled on the same bucket
+
+S3 Transfer Acceleration
+------------------------
+
+This is used to speed up large data uploads to S3. With this, user can upload the data to nearest edge location and S3 will then ensure that the data is replicated to the actual bucket for final storage. For Edge Location -> S3, AWS will then use the backbone network which is quite fast than the usual internet speed
+
+S3 Lifecycle Rules
+------------------
+
+-   LRs can be used to automatically expire objects based on prefix/tag filters (For eg. All objects having tags "*abc"* should expire after 30 days)
+-   Objects can automatically transition across different storage tiers' based on lifecycle rules. For eg. after 30 days migrate objects to IA-1Zone and after 60 days move it to Glacier and finally expire them after 120 days
+
+S3 Cross Region Replication
+---------------------------
+
+-   This is used when you want to replicate the contents of a bucket automatically to another bucket (The destination bucket could also enforce different storage tiers on the objects)
+-   Versioning has to be mandatorily enabled on both source and destination buckets
+-   Delete markers OR object deletions are not replicated on the destination bucket. This is done intentionally by Amazon to inadvertently replicating deletion of objects
+
+Other S3 Related Services Offered by AWS
+----------------------------------------
+
+-   S3 Athena --- S3 Select based query analysis on S3 objects without transferring the data first to a data lake
+-   S3 Object Lock
+-   S3 Inventory --- Reporting for auditing purposes of all S3 objects. Reports can be stored in json, yaml or parquet format
+-   S3 Batch Operations : Run lambda function or other operations on millions of objects in one go
+
+* * * * *
+
+Storage Gateway
+===============
+
+Virtual / Physical appliance that sits in your data centre and replicates data to S3
+
+*File Gateway* : Plain files, replicated to S3
+
+*Volume Gateway* : There are two types of Volume Gateways
+
+-   Stored Volumes : Entire data is on-site but backed up on S3 asynchronously
+-   Cached Volumes : Entire data is on S3, but cached data (frequently accessed) is on-site
+
+*Gateway Virtual Tape library*
+
+* * * * *
+
+SQS (Simple Queue Service)
+==========================
+
+-   Messages retained for a period of 14 days
+-   Messages can arrive out of order however highly unlikely
+-   Long polling can be used to avoid cost of frequent polling. Long polling only returns when a message is available and you avoid polling empty queue time and again
+-   Visibility of the message can be altered while it is being processed upto a maximum of 12 hours. During this time, a message if processed completely by a worker, can be removed from the queue
+
+SQS Queue Types
+---------------
+
+*Standard SQS Queue : *This is the standard processing model for SQS service
+
+*FIFO SQS Queue : *In this messages are delivered only once and also arrive in order. Maximum throughput of 300 transactions is supported
+
+* * * * *
+
+SWF (Simple Workflow Service)
+=============================
+
+This makes more sense when a manual intervention or task oriented workflow is needed in contrast to a message oriented workflow with SQS
+
+-   In contrast SQS is more of a message oriented workflow
+-   In SWF, maximum retention period is for 1 year where the messages can be stored
+-   This workflow guarantees that a task is processed only once
+
+It works with the following components
+
+i) *Workflow Starters* : Something like web application which triggers a workflow
+
+ii) *Deciders* : Which decide that a particular workflow task has to be executed
+
+iii) *Activity Executors* : They execute the real business logic defined in the workflow
+
+* * * * *
+
+SNS (Simple Notification Service)
+=================================
+
+-   This is push based service in contrast to SQS which is pull based
+-   One can manage various different topics of notification and different subscribers who can then register with the topic with different subscriptions (SMS, Email, HTTPS etc.)
+-   In order to ensure that updates are not lost, SNS messages are replicated across all AZs
+-   It is immediate notification service with no delays
+
+* * * * *
+
+Elastic Transcoder
+==================
+
+-   Media transcoding service used to convert media files across different formats and resolutions
+-   Supports various templates with best practices for converting media for iphones, android devices, browsers etc.
+-   High resolution transcoding service is pay as you go model --- cost depends on resolution and time taken to convert
+
+* * * * *
+
+API Gateway
+===========
+
+API Gateway is an entry-point for various types of resources acting as a front door entry mechanism with support for:
+
+-   HTTPS/TLS
+-   Invocation for resources like EC2, Lambda etc.
+-   Caching response at it's own layer, thereby reducing requests to things like Lambda on every API invocation
+
+API Gateway uses the following things to realise an API that can be exposed to the end-user
+
+-   A container which defines the API to be exposed
+-   Request types that are supported for the API container (GET, POST, OPTIONS etc.)
+-   URL Paths that have to be supported as part of the API (/main, /help, /register etc.)
+-   Destinations like Lambda, EC2 instances etc. which receive the request
+-   CORS (Cross origin resource sharing is needed to be enabled if requests can originate from various different sources) --- FYI, CORS is always enforced by the client (like browsers)
+
+API Gateway supports throttling API requests on global or API level and also supports caching by defining a fixed data size for storage to be provisioned. With caching enabled you can then avoid passing on redundant calls to the backend systems
+
+* * * * *
+
+Kinesis (Streaming Data Ingestion)
+==================================
+
+*Streams --- Analytics --- Firehose*
+
+-   When there is a need to consume lots of streaming data on the fly, Kinesis platform can be used
+
+Kinesis offers three different types of services:
+
+-   *Kinesis Streams* : They work on shards (Shards are containers which define the logical boundaries of data storage). Streams persist the data for minimum 24 hours and maximum 7 days, so that something like Lambda or EC2 can work on this data and understand it
+-   *Kinesis Firehose* : This is without persistence --- As soon as data comes in, it has to be read/understood/processed by something like Lambda / EC2 and later the result can be stored in DynamoDB, RDS, S3 or Elastic Cluster etc.
+-   *Kinesis Analytics* : This is used for real time analytics over the data that is pushed to the Kinesis Platform
+
+* * * * *
+
+AWS Cognito and Web Identity Federation
+=======================================
+
+AWS Cognito builds upon two concepts:
+
+-   *User pools* --- They handle user registration, authentication, password reset etc.
+-   *Identity Pools* --- They are more aligned with authorization as they return the AWS credentials which can be temporarily used to assume a role, using which the user can then access various AWS resources
+
+Web Identity Federations
+------------------------
+
+When you build a mobile app for example, you cannot distribute AWS credentials along with the application code. When the application needs to access any AWS resource, it can instead generate a temporary AWS token which maps to a particular role and using that temporary token it accesses the specified resource. This avoids bundling any secure credential directly with the source code. For fetching an auth token, the app first authenticates the user against Google, Facebook, Amazon etc. or any other provider which support OIDC (Open ID Connect) connect capability.
+
+Mobile App User -> Logs in to Amazon, Facebook, Microsoft etc. -> Authenticates -> Mobile app gets a secure token and exchanges it with AWS for a temporary access token mapped to a role
+
+-   While Web Identity Federations don't use something like Active Directory, but instead have integrations with Amazon, Facebook, Google etc. On the flip side, when integrations with on-premise Active Directory are needed, users can instead use SAML based integration with an identity provider like OneLogin which integrates with the on-premise AD solution and generates SAML based authorization which is also understood by different solutions like AWS.
+-   So, Web Identity providers are to be used when user logs in against well known services, whereas SAML based assertion is to be used, when user logs in against an IdP and the IdP further validates against AD. One benefit with IdP based SAML is that user can now access all applications using the same IdP based authentication which he had to do only once.
+
+* * * * *
+
+Amazon EMR (Managed Hadoop Framework)
+=====================================
+
+-   EMR helps users run Big Data workloads like Hadoop, Apache Spark etc on AWS
+-   In Amazon EMR, AWS provisions EC2 instances for you to work on the data. This enables users to access the EC2 instances and gain visibility in Operating System Configuration
+
+* * * * *
+
+Amazon Inspector
+================
+
+It helps to monitor and investigate state of security of the systems by scanning networks or configurations
+
+* * * * *
+
+Cloudwatch Agent
+================
+
+Custom monitoring scripts written in Perl, Ruby etc. and are available to be installed on the EC2 instances. Same Cloudwatch agent can be used to ship logs as well as additional monitoring data like Memory Utilization etc to Cloudwatch. Metrics like MemoryUtilization, CPU Core usage, Disk space utilization, disk space utilization etc. are not available out of the box with default Cloudwatch capabilities
+
+* * * * *
+
+Amazon MQ
+=========
+
+It is a messaging broker with support for large number of protocols and standards, and is usually better when migrating existing messaging broker workloads to the cloud. When building new applications that depend on messaging capabilities, we can always use Amazon SQS which is highly scalable.
+
+Amazon SQS on the other hand is similar but does not support a large number of APIs and protocols.
+
+![](https://miro.medium.com/max/60/0*Piks8Tu6xUYpF4DU?q=20)
