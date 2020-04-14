@@ -246,3 +246,95 @@ Multithreaded, NOT multi-az and useful for simple cache offloading
 ii) Redis
 
 Single threaded, MultiAZ, backups are possible, business use-cases available like MIN, MAX, AVG etc.
+
+Cloudfront
+==========
+
+-   Cloudfront is a service that is used to store cached content at edge locations so that global users get it from their nearest location
+-   Cloudfront can monitor a S3 bucket, EBS load balancer, EC2 machine etc. and then it can just get new data and store it locally so that users can then download it directly from the Cloudfront distribution URL
+-   We can also invalidate cached objects in Cloudfront, but these invalidations are normally charged by AWS
+-   Objects are stored/cached by the edge locations until the TTL expires; after which a new version is then fetched again from the central server
+-   Edge locations can also be used to write data and not just READ data. Write scenario is used mostly in case of S3 Transfer acceleration where an user writes data to a local edge location and then AWS takes care of actually transferring the data to real S3 bucket
+-   Origins are the source from which cloudfront gets the data (S3, ELB, EC2 instance etc.)
+
+* * * * *
+
+Elastic Load Balancers
+======================
+
+ELBs by default come up in background in all AZs and they also dynamically scale up and down based on the traffic
+
+Full DNS lookup will often tell us about all the ELBs that are currently used by AWS to handle incoming requests
+
+Load balancers are basically of three types:
+
+Application Load balancers
+--------------------------
+
+Can route traffic based on layer 7 interaction. Basically work on HTTP/HTTPS layer and can be used for intelligent routing based on application needs (headers, query parameters, source IP etc.)
+
+Network Load Balancers
+----------------------
+
+Are used for scenarios where pretty heavy workload (millions of requests) have to be routed/managed
+
+Classic Load Balancers
+----------------------
+
+They are deprecated now but were used for basic HTTP/TCP routing
+
+-   AWS never gives us IP addresses of Load Balancer resources, instead we only get a DNS routable name and the IP address can always change. However, for network load balancer we can attach elastic IP addresses to them and the NLB will be available over those addresses.
+-   Application load balancers route traffic to a target group instead of routing them to an instance
+-   Sticky Sessions have to be disabled, if all requests are going to only few/one instances. They are only useful if the instances store some information locally which is relevant for subsequent requests
+-   Cross zone load balancing allows load balancer to route requests evenly to instances in multiple availability zones
+-   Path patterns can be used to redirect traffic to different EC2 instances based on a specific URL Path pattern which exists
+-   Single Application Load Balancer can be loaded with certificates from different domains. Multiple certificates can be uploaded to ACM (Amazon Certificate Manager) and then clients (reaching out to ALB) can use something like SNI (Server Name Indication) to specify which host to reach
+
+Launch configurations and ASGs
+------------------------------
+
+If ASG is terminated, all instances associated as part of it will also be terminated
+
+Launch Configurations are more about the configurations of the individual EC2 machines i.e. instance types, security group configurations, root volume configurations, tags etc. whereas Autoscaling Groups use LCs (Launch configurations) to spin up new instances and work on scaling up/down EC2 instances based on pre-defined policies
+
+Egress Only Internet Gateways
+-----------------------------
+
+Egress only gateways allow IPv6 based internet traffic to access the internet and at the same time denying access from internet to the instances within the VPC
+
+* * * * *
+
+Amazon FSx
+==========
+
+Amazon FSx is a file system offering from AWS. It is offered in two variants:
+
+-   FSx for Windows
+-   FSx for Lustre (High performance compute)
+
+FSx is basically a high performance file system that can be used for compute intensive workloads offering high data throughput. Users can additionally configure the throughput irrespective of the data storage size of the file system (unlike EFS)
+
+FSx is frequently used as file storage for Windows systems as it offers SMB protocol support. Additionally, it also offers integrations with other storage services like S3, where data can be temporarily copied from S3 to AWS FSx for high throughput needs from a filesystem perspective; and later the result can be copied back to S3 after the computations are completed.
+
+Payment model is pay-as-you-go
+
+* * * * *
+
+AWS WAF (Web App Firewall)
+==========================
+
+AWS WAF is a managed service designed to protect public facing web applications from unintended/unsafe traffic
+
+WAF provides readymade integrations with:
+
+-   Cloudfront
+-   Application Load Balancer
+-   API Gateway
+
+With these integrations, whenever any of these services receive a request; they forward it to WAF for validation. If WAF allows, only then these requests are further routed by CF, ALB or API GW to the back-end machine which needs to process the request
+
+WAF offers many managed rules (based on industry best practices like OWASP top 10 vulnerabilities, SQL injection etc.)
+
+As a customer, we can define our custom conditions or use these managed rules to provide security for our application
+
+Custom rules for throttling (IP '123.x.x.x' can only trigger 4000 requests per second etc.) can also be defined at WAF layer and then custom error messages/pages could also be configured in services like Cloudfront which could then be returned to the end-user. All this happens without affecting the real back-end systems.
