@@ -51,9 +51,6 @@
         -   Supports various platforms (node.js, python etc)
         -   Provisions the resources required (EC2, ELB etc) automatically
     -   Application Load Balancer
-        -   2nd type of load balancer offered by ELB
-
-
         -   Comes with new features
 ![alt text](ELBvsALB.png "Logo Title Text 1")
 
