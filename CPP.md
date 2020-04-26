@@ -24,9 +24,7 @@
     -   Each account can create multiple VPCs
     -   Using fewer VPCs is recommended to avoid complexity
     -   Can assign Internet Gateways to specific subnets to allow public access
-
-        [![](https://volkanpaksoy.com/images/vpblogimg/2018/07/aws-cloud-practitioner-01-VPC.png)](https://volkanpaksoy.com/images/vpblogimg/2018/07/aws-cloud-practitioner-01-VPC.png)
-
+    
 -   Security Groups
     -   Act like a built-in firewall
     -   Best practice: Allow what's required only and block everything else
@@ -55,11 +53,9 @@
     -   Application Load Balancer
         -   2nd type of load balancer offered by ELB
 
-        [![](https://volkanpaksoy.com/images/vpblogimg/2018/07/aws-cloud-practitioner-02-Application-Load-Balancer.png)](https://volkanpaksoy.com/images/vpblogimg/2018/07/aws-cloud-practitioner-02-Application-Load-Balancer.png)
 
         -   Comes with new features
 
-        [![](https://volkanpaksoy.com/images/vpblogimg/2018/07/aws-cloud-practitioner-03-ALB-New-features.png)](https://volkanpaksoy.com/images/vpblogimg/2018/07/aws-cloud-practitioner-03-ALB-New-features.png)
 
         -   Supports routing to containers
         -   Key terms:
