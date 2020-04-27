@@ -1,12 +1,12 @@
 # Cloud Certifications Notes.
 
 ## Notes for AWS Certifications.
-- [AWS Cloud Practitioner](/AWSNotes/CPP.html)
-- [AWS Solutions Architect Associate](/AWSNotes/SAA.html)
+- [AWS Cloud Practitioner](/CloudNotes/CPP.html)
+- [AWS Solutions Architect Associate](/CloudNotes/SAA.html)
 - AWS Developer Associate(Coming Soon)
 
 ## Notes for OCI Certifications.
-- [OCI Foundations Associate]
+- [OCI Foundations Associate](/CloudNotes/OCIFA.html)
 
 ## Notes for Azure Certfications.
 - Coming Soon
