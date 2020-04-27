@@ -8,5 +8,6 @@ include:
   - README.md
   - CPP.md
   - SAA.md
+  - OCIFA.md
 
 theme: jekyll-theme-cayman
