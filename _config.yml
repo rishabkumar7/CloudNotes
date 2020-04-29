@@ -10,4 +10,4 @@ include:
   - SAA.md
   - OCIFA.md
 
-theme: jekyll-theme-cayman
+remote_theme: "dracula/gh-pages"
