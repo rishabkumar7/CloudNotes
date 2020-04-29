@@ -9,11 +9,11 @@
 - [AWS Solutions Architect Associate](/CloudNotes/SAA.html)
 - AWS Developer Associate(Coming Soon)
 
-## Notes for OCI Certifications.
-- [OCI Foundations Associate](/CloudNotes/OCIFA.html)
-
 ## Notes for Azure Certfications.
 - Coming Soon
+
+## Notes for OCI Certifications.
+- [OCI Foundations Associate](/CloudNotes/OCIFA.html)
 
 
 I will be adding notes for other Exams
