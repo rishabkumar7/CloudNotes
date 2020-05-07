@@ -9,5 +9,4 @@ include:
   - CPP.md
   - SAA.md
   - OCIFA.md
-
-remote_theme: "dracula/gh-pages"
+theme: jekyll-dash
