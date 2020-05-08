@@ -7,7 +7,7 @@
 ## Notes for AWS Certifications.
 - [AWS Cloud Practitioner](/CloudNotes/CPP.html)
 - [AWS Solutions Architect Associate](/CloudNotes/SAA.html)
-- AWS Developer Associate(Coming Soon)
+- [AWS Developer Associate](/CloudNotes/CDA.html)
 
 ## Notes for Azure Certfications.
 - Coming Soon
