@@ -16,8 +16,9 @@
 - [OCI Foundations Associate](/CloudNotes/OCIFA.html)
 
 
-I will be adding notes for other Exams
-Open for suggestions for notes on other exams 
+I will be adding notes for other Exams.
+
+Open for suggestions for notes on other exams. 
 
 Please check out [DigitalCloud Cheat Sheets](https://digitalcloud.training/certification-training/)
 
