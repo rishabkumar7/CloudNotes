@@ -10,3 +10,5 @@ include:
   - SAA.md
   - OCIFA.md
 remote_theme: "dracula/gh-pages"
+
+theme: jekyll-theme-midnight
