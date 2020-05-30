@@ -21,7 +21,8 @@
 
 I will be adding notes for other Exams.
 
-Please check out [DigitalCloud Cheat Sheets](https://digitalcloud.training/certification-training/)
-
+Please check out these amazing CheatSheets:
+- [TutorialDojo Cheat Sheets](https://tutorialsdojo.com/aws-cheat-sheets/)
+- [DigitalCloud Cheat Sheets](https://digitalcloud.training/certification-training/)
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
