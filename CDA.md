@@ -1190,7 +1190,7 @@ about the change
 
 ---------------------------------------
 
-# [DynamoDB (No-SQL):](https://aws.amazon.com/dynamodb/)
+# DynamoDB (No-SQL):
 
 -   Non Relational DB (No-SQL), comprised of collections (tables), of documents (rows), with each document consisting of key/value pairs (fields)
 -   Document oriented DB
