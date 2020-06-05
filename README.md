@@ -10,7 +10,7 @@
 - [AWS Developer Associate](/CloudNotes/CDA.html)
 
 ## Notes for Azure Certfications.
-- Coming Soon
+- [Azure Fundamentals : AZ-900](/CloudNotes/AzureFundamentals.html)
 
 ## Notes for OCI Certifications.
 - [OCI Foundations Associate](/CloudNotes/OCIFA.html)
