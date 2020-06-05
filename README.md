@@ -2,8 +2,8 @@
 
 <!-- Github buttons -->
 <a class="github-button" href="https://github.com/rishabkumar7/CloudNotes" data-size="large" data-show-count="true" aria-label="Star rishabkumar7/CloudNotes on GitHub">Star</a>
-<a class="github-button" href="https://github.com/rishabkumar7/CloudNotes/issues" data-size="large" data-show-count="true" aria-label="Issue rishabkumar7/CloudNotes on GitHub">Issue</a>
 <a class="github-button" href="https://github.com/rishabkumar7/CloudNotes/subscription" data-size="large" data-show-count="true" aria-label="Watch rishabkumar7/CloudNotes on GitHub">Watch</a>
+<a class="github-button" href="https://github.com/rishabkumar7/CloudNotes/issues" data-size="large" data-show-count="true" aria-label="Issue rishabkumar7/CloudNotes on GitHub">Issue</a>
 <!-- /Github buttons --> 
 
 
