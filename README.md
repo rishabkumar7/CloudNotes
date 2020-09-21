@@ -17,6 +17,9 @@
 ## Notes for Azure Certfications.
 - [Azure Fundamentals : AZ-900](/CloudNotes/AzureFundamentals.html)
 
+## Notes for Terraform Certifications.
+- [Terraform Associate Certification](/CloudNotes/Terraform.html)
+
 ## Notes for OCI Certifications.
 - [OCI Foundations Associate](/CloudNotes/OCIFA.html)
 
