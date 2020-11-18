@@ -1,5 +1,16 @@
 # Cloud Certifications Notes.
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VFEQW73JV1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-VFEQW73JV1');
+</script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
 <!-- Github buttons -->
 <a class="github-button" href="https://github.com/rishabkumar7/CloudNotes" data-size="large" data-show-count="true" aria-label="Star rishabkumar7/CloudNotes on GitHub">Star</a>
 <a class="github-button" href="https://github.com/rishabkumar7/CloudNotes/subscription" data-size="large" data-show-count="true" aria-label="Watch rishabkumar7/CloudNotes on GitHub">Watch</a>
