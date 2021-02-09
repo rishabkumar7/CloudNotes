@@ -2,9 +2,10 @@
 template: BlogPost
 path: /azure-fundamentals
 title: 'Azure Fundamentals'
-date: 2020-12-21T12:12:25.364Z
+date: 2020-02-21T12:12:25.364Z
 thumbnail: 'https://rishabincloud.s3.amazonaws.com/CloudNotes/AzureFundamentals.png'
 tags: 'Azure'
+metaDescription: Azure Fundamentals AZ-900
 ---
 
 
