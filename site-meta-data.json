@@ -1,9 +1,9 @@
 {
   "title": "Rishab.Cloud",
-  "siteUrl": "https://delog-w3layouts.netlify.com/",
+  "siteUrl": "https://notes.rishab.cloud/",
   "description": "rishab.cloud, all my cloud certification notes in one place!",
   "home": {
     "title": "Hi! I'm Rishab",
-    "description": "I have been specifically designed to become a digital home for designers and developers, help them build amazing professional looking websites with ease. You don't have to worry about nitty gritty of web hosting services to run a blog and yet take full advantage of CMS to manage content :)"
+    "description": "I have gathered some notes about my cloud certifications, hope they help you with your preparations."
   }
 }

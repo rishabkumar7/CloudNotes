@@ -1,7 +1,7 @@
 backend:
   name: github
   # change repo to your git repository url
-  repo: W3Layouts/gatsby-starter-delog
+  repo: rishabkumar7/CloudNotes
 
 media_folder: static/assets
 public_folder: /assets
