@@ -1,11 +1,12 @@
 import React from "react"
 import { Link } from "gatsby"
 import ThemeChanger from "../components/themeChanger"
+import SocialLinks from "../components/socialLinks"
 
 export default (props) => (
   <nav className="navigation">
-    <a href="https://rishabkumar.com/">Portfolio</a>
+    <SocialLinks />
     <ThemeChanger />
-  </nav>
+  </nav >
 
 )
