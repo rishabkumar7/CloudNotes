@@ -1,4 +1,12 @@
-# Azure Fundamentals
+---
+template: BlogPost
+path: /azure-fundamentals
+title: 'Azure Fundamentals'
+date: 2020-02-21T12:12:25.364Z
+thumbnail: 'https://149366088.v2.pressablecdn.com/wp-content/uploads/2020/04/ubuntu-20.4-wsl.jpg'
+tags: 'Azure'
+---
+
 
 ## Cloud Concept
 

@@ -1,0 +1,75 @@
+backend:
+  name: github
+  # change repo to your git repository url
+  repo: W3Layouts/gatsby-starter-delog
+
+media_folder: static/assets
+public_folder: /assets
+
+collections:
+  - name: settings
+    label: Settings
+    files:
+      - name: config
+        label: Config
+        file: site-meta-data.json
+        fields:
+          - widget: string
+            name: title
+            label: Site Title
+            required: true
+          - widget: string
+            name: siteUrl
+            label: Website URL
+            required: true
+          - widget: text
+            name: description
+            label: Description
+            default: ''
+            required: false
+          - widget: object
+            name: home
+            label: Homepage Options
+            fields:
+              - widget: string
+                name: title
+                label: Title
+                default: ''
+                required: false
+              - widget: markdown
+                name: description
+                label: Description
+                default: ''
+                required: false
+  - name: blog
+    label: Blog
+    folder: _data/blog
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    create: true
+    fields:
+      - {
+          label: Template,
+          name: template,
+          widget: hidden,
+          default: BlogPost,
+        }
+      - name: path
+        label: Path
+        widget: string
+        pattern: [/]
+        hint: "Path must start with /"
+      - { name: date, label: Date, widget: datetime }
+      - { name: title, label: Title }
+      - label: Meta Description
+        name: metaDescription
+        widget: text
+        required: false
+      - label: Featured Image
+        name: thumbnail
+        widget: image
+        hint: "Image size 1280x800 works best :)"
+        required: false
+        media_library:
+          config:
+            multiple: false
+      - { name: body, label: Body, widget: markdown }

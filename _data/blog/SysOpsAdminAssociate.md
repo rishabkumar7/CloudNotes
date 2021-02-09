@@ -1,3 +1,12 @@
+---
+template: BlogPost
+path: /aws-sysops
+title: 'AWS SysOps Administrator Associate'
+date: 2020-12-21T12:12:25.364Z
+thumbnail: 'https://rishabincloud.s3.amazonaws.com/CloudNotes/AWSSysOps.png'
+tags: 'AWS'
+---
+
 # AWS SysOps Administrator Associate
 
 
@@ -52,7 +61,7 @@ Monitoring is accomplished through the usage of CloudWatch, which is a service t
 -   cd aws-scripts-mon
 -   ./mon-put-instance-data.pl --mem-util --verify --verbose (dry run no data will be sent to CloudWatch)
 -   ./mon-put-instance-data.pl --mem-util --mem-used --mem-avail (set this up on 1/5 minute cron job)
--   Set Cron job to run regulary (*/5 * ** * ec2-user /CloudWatch/mon-put-instance-data.pl --mem-util --mem-used)
+-   Set Cron job to run regulary (*/5 * ** * ec2-user /CloudWatch/mon-put-instance-data.pl --mem-util --mem-used)
 
 > **Monitoring EBS:**
 
@@ -75,7 +84,7 @@ Monitoring is accomplished through the usage of CloudWatch, which is a service t
 -   To avoid the performance hit, volumes can be pre-warmed
 -   For a new volume, you should write to all blocks before using the volume
 -   For a volume that has been restored from a snapshot, you should read all blocks that have data before using the volume
--   Instructions for pre-warming volumes can be found [here](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-initialize.html)
+-   Instructions for pre-warming volumes can be found [here](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-initialize.html)
 -   EBS CloudWatch Metrics:
     -   VolumeReadBytes
     -   VolumeWriteBytes
@@ -963,7 +972,7 @@ Route53:
 -   etc
 -   Controlled by the Internet Assigned Numbers Authority (IANA)
 -   Stored in a root zone database which is a database of all available TLDs (Top Level Domains)
--   Database can be found at <http://www.iana.org/domains/root/db>
+-   Database can be found at <http://www.iana.org/domains/root/db>
 -   Domain Names:
 -   All names in a given domain name have to be unique
 -   DNS registrars are authority's that can assign domain names directly under one or more TLD's

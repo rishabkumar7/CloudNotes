@@ -1,3 +1,12 @@
+---
+template: BlogPost
+path: /aws-saa
+title: 'AWS Solutions Architect Associate'
+date: 2020-12-21T12:12:25.364Z
+thumbnail: 'https://rishabincloud.s3.amazonaws.com/CloudNotes/AWSSAA.png'
+tags: 'AWS'
+---
+
 # AWS Solutions Architect Associate
 
 Regions / Availability Zones (AZs)
@@ -309,11 +318,11 @@ Single threaded, MultiAZ, backups are possible, business use-cases available lik
 Cloudfront
 ==========
 
--   Cloudfront is a service that is used to store cached content at edge locations so that global users get it from their nearest location
--   Cloudfront can monitor a S3 bucket, EBS load balancer, EC2 machine etc. and then it can just get new data and store it locally so that users can then download it directly from the Cloudfront distribution URL
--   We can also invalidate cached objects in Cloudfront, but these invalidations are normally charged by AWS
--   Objects are stored/cached by the edge locations until the TTL expires; after which a new version is then fetched again from the central server
--   Edge locations can also be used to write data and not just READ data. Write scenario is used mostly in case of S3 Transfer acceleration where an user writes data to a local edge location and then AWS takes care of actually transferring the data to real S3 bucket
+-   Cloudfront is a service that is used to store cached content at edge locations so that global users get it from their nearest location
+-   Cloudfront can monitor a S3 bucket, EBS load balancer, EC2 machine etc. and then it can just get new data and store it locally so that users can then download it directly from the Cloudfront distribution URL
+-   We can also invalidate cached objects in Cloudfront, but these invalidations are normally charged by AWS
+-   Objects are stored/cached by the edge locations until the TTL expires; after which a new version is then fetched again from the central server
+-   Edge locations can also be used to write data and not just READ data. Write scenario is used mostly in case of S3 Transfer acceleration where an user writes data to a local edge location and then AWS takes care of actually transferring the data to real S3 bucket
 -   Origins are the source from which cloudfront gets the data (S3, ELB, EC2 instance etc.)
 
 * * * * *
@@ -323,7 +332,7 @@ Elastic Load Balancers
 
 ELBs by default come up in background in all AZs and they also dynamically scale up and down based on the traffic
 
-Full DNS lookup will often tell us about all the ELBs that are currently used by AWS to handle incoming requests
+Full DNS lookup will often tell us about all the ELBs that are currently used by AWS to handle incoming requests
 
 Load balancers are basically of three types:
 
@@ -342,19 +351,19 @@ Classic Load Balancers
 
 They are deprecated now but were used for basic HTTP/TCP routing
 
--   AWS never gives us IP addresses of Load Balancer resources, instead we only get a DNS routable name and the IP address can always change. However, for network load balancer we can attach elastic IP addresses to them and the NLB will be available over those addresses.
--   Application load balancers route traffic to a target group instead of routing them to an instance
--   Sticky Sessions have to be disabled, if all requests are going to only few/one instances. They are only useful if the instances store some information locally which is relevant for subsequent requests
--   Cross zone load balancing allows load balancer to route requests evenly to instances in multiple availability zones
+-   AWS never gives us IP addresses of Load Balancer resources, instead we only get a DNS routable name and the IP address can always change. However, for network load balancer we can attach elastic IP addresses to them and the NLB will be available over those addresses.
+-   Application load balancers route traffic to a target group instead of routing them to an instance
+-   Sticky Sessions have to be disabled, if all requests are going to only few/one instances. They are only useful if the instances store some information locally which is relevant for subsequent requests
+-   Cross zone load balancing allows load balancer to route requests evenly to instances in multiple availability zones
 -   Path patterns can be used to redirect traffic to different EC2 instances based on a specific URL Path pattern which exists
--   Single Application Load Balancer can be loaded with certificates from different domains. Multiple certificates can be uploaded to ACM (Amazon Certificate Manager) and then clients (reaching out to ALB) can use something like SNI (Server Name Indication) to specify which host to reach
+-   Single Application Load Balancer can be loaded with certificates from different domains. Multiple certificates can be uploaded to ACM (Amazon Certificate Manager) and then clients (reaching out to ALB) can use something like SNI (Server Name Indication) to specify which host to reach
 
 Launch configurations and ASGs
 ------------------------------
 
-If ASG is terminated, all instances associated as part of it will also be terminated
+If ASG is terminated, all instances associated as part of it will also be terminated
 
-Launch Configurations are more about the configurations of the individual EC2 machines i.e. instance types, security group configurations, root volume configurations, tags etc. whereas Autoscaling Groups use LCs (Launch configurations) to spin up new instances and work on scaling up/down EC2 instances based on pre-defined policies
+Launch Configurations are more about the configurations of the individual EC2 machines i.e. instance types, security group configurations, root volume configurations, tags etc. whereas Autoscaling Groups use LCs (Launch configurations) to spin up new instances and work on scaling up/down EC2 instances based on pre-defined policies
 
 Egress Only Internet Gateways
 -----------------------------
@@ -371,7 +380,7 @@ Amazon FSx is a file system offering from AWS. It is offered in two variants:
 -   FSx for Windows
 -   FSx for Lustre (High performance compute)
 
-FSx is basically a high performance file system that can be used for compute intensive workloads offering high data throughput. Users can additionally configure the throughput irrespective of the data storage size of the file system (unlike EFS)
+FSx is basically a high performance file system that can be used for compute intensive workloads offering high data throughput. Users can additionally configure the throughput irrespective of the data storage size of the file system (unlike EFS)
 
 FSx is frequently used as file storage for Windows systems as it offers SMB protocol support. Additionally, it also offers integrations with other storage services like S3, where data can be temporarily copied from S3 to AWS FSx for high throughput needs from a filesystem perspective; and later the result can be copied back to S3 after the computations are completed.
 
@@ -390,7 +399,7 @@ WAF provides readymade integrations with:
 -   Application Load Balancer
 -   API Gateway
 
-With these integrations, whenever any of these services receive a request; they forward it to WAF for validation. If WAF allows, only then these requests are further routed by CF, ALB or API GW to the back-end machine which needs to process the request
+With these integrations, whenever any of these services receive a request; they forward it to WAF for validation. If WAF allows, only then these requests are further routed by CF, ALB or API GW to the back-end machine which needs to process the request
 
 WAF offers many managed rules (based on industry best practices like OWASP top 10 vulnerabilities, SQL injection etc.)
 
@@ -403,37 +412,37 @@ S3
 
 -   S3 Standard : Availability --- 4 9s (99.99%), Durability --- 11 9s (99.999999999 %)
 -   Global namespace (Bucket names should be unique)
--   Minimum size of objects is 0 bytes, maximum is 5TB
+-   Minimum size of objects is 0 bytes, maximum is 5TB
 -   Files can be uploaded in buckets which are nothing but folders hostingd the files
--   On successful upload, S3 returns a HTTP 200 status code
--   By default all buckets are private
+-   On successful upload, S3 returns a HTTP 200 status code
+-   By default all buckets are private
 
 S3 Consistency Model
 --------------------
 
-Read after write consistency for new PUT objects (Newly uploaded objects are guaranteed to be read immediately without any stale state or problems)
+Read after write consistency for new PUT objects (Newly uploaded objects are guaranteed to be read immediately without any stale state or problems)
 
-Eventual consistency for overwrite PUTs and DELETEs (Modifications / deletions will eventually reflect latest state --- there could be a delay of some seconds)
+Eventual consistency for overwrite PUTs and DELETEs (Modifications / deletions will eventually reflect latest state --- there could be a delay of some seconds)
 
 S3 Object Properties
 --------------------
 
--   *Key* : Name of the object
--   *Value* : Sequence of bytes/contents of the object
--   *Versioning* : Version of the object
--   *Metadata* : Objects can further have metadata (data about data) to classify the contents
+-   *Key* : Name of the object
+-   *Value* : Sequence of bytes/contents of the object
+-   *Versioning* : Version of the object
+-   *Metadata* : Objects can further have metadata (data about data) to classify the contents
 
 S3 Storage Tiers
 ----------------
 
 S3 offers various storage tiers that help control cost, availability and durability of the data
 
--   S3 Standard : This is the most costly alternative with 99.99% availability (probability that the object will be available when needed) and 99.999999999% durability (probability that data will not be lost)
--   S3 IA (Infrequently accessed) : This still replicates data to different zones in a region but less costlier than standard. Retrieval fees are charged
--   S3 IA --- 1 Zone : Multiple zones replication is not done and costs even lesser than S3 IA
--   S3 Intelligent Tiering : Storage tiering is managed by AWS instead which uses Machine learning to decide on which tier to use for the bucket based on historical patterns of usage
--   S3 Glacier : Used when cost has to be less but time of retrieval can be configurable ranging from minutes to hours
--   S3 Glacier deep archive : This is cheapest option where retrieval time of more than 12 hours is acceptable. This is used for data which might be rarely needed and time of retrieval being around ~12 hours is still acceptable
+-   S3 Standard : This is the most costly alternative with 99.99% availability (probability that the object will be available when needed) and 99.999999999% durability (probability that data will not be lost)
+-   S3 IA (Infrequently accessed) : This still replicates data to different zones in a region but less costlier than standard. Retrieval fees are charged
+-   S3 IA --- 1 Zone : Multiple zones replication is not done and costs even lesser than S3 IA
+-   S3 Intelligent Tiering : Storage tiering is managed by AWS instead which uses Machine learning to decide on which tier to use for the bucket based on historical patterns of usage
+-   S3 Glacier : Used when cost has to be less but time of retrieval can be configurable ranging from minutes to hours
+-   S3 Glacier deep archive : This is cheapest option where retrieval time of more than 12 hours is acceptable. This is used for data which might be rarely needed and time of retrieval being around ~12 hours is still acceptable
 
 S3 Security Policies
 --------------------
@@ -445,7 +454,7 @@ S3 Security Policies
 
 Encryption at rest is achieved in two ways
 
-Service Side encryption (Can be further managed by AWS in three ways)
+Service Side encryption (Can be further managed by AWS in three ways)
 
 *i) Keys managed by S3 service for encryption (**SSE-S3**)*
 
@@ -453,39 +462,39 @@ Service Side encryption (Can be further managed by AWS in three ways)
 
 *iii) User/Customer provided encryption keys can also be used (**SSE-C**)*
 
-Client Side encryption --- Client himself manages the encryption/decryption and uploads the encrypted data only
+Client Side encryption --- Client himself manages the encryption/decryption and uploads the encrypted data only
 
 S3 Versioning
 -------------
 
--   S3 versioning can be used to maintain multiple copies of objects
--   Once enabled, it cannot be disabled on the same bucket
+-   S3 versioning can be used to maintain multiple copies of objects
+-   Once enabled, it cannot be disabled on the same bucket
 
 S3 Transfer Acceleration
 ------------------------
 
-This is used to speed up large data uploads to S3. With this, user can upload the data to nearest edge location and S3 will then ensure that the data is replicated to the actual bucket for final storage. For Edge Location -> S3, AWS will then use the backbone network which is quite fast than the usual internet speed
+This is used to speed up large data uploads to S3. With this, user can upload the data to nearest edge location and S3 will then ensure that the data is replicated to the actual bucket for final storage. For Edge Location -> S3, AWS will then use the backbone network which is quite fast than the usual internet speed
 
 S3 Lifecycle Rules
 ------------------
 
--   LRs can be used to automatically expire objects based on prefix/tag filters (For eg. All objects having tags "*abc"* should expire after 30 days)
+-   LRs can be used to automatically expire objects based on prefix/tag filters (For eg. All objects having tags "*abc"* should expire after 30 days)
 -   Objects can automatically transition across different storage tiers' based on lifecycle rules. For eg. after 30 days migrate objects to IA-1Zone and after 60 days move it to Glacier and finally expire them after 120 days
 
 S3 Cross Region Replication
 ---------------------------
 
 -   This is used when you want to replicate the contents of a bucket automatically to another bucket (The destination bucket could also enforce different storage tiers on the objects)
--   Versioning has to be mandatorily enabled on both source and destination buckets
--   Delete markers OR object deletions are not replicated on the destination bucket. This is done intentionally by Amazon to inadvertently replicating deletion of objects
+-   Versioning has to be mandatorily enabled on both source and destination buckets
+-   Delete markers OR object deletions are not replicated on the destination bucket. This is done intentionally by Amazon to inadvertently replicating deletion of objects
 
 Other S3 Related Services Offered by AWS
 ----------------------------------------
 
--   S3 Athena --- S3 Select based query analysis on S3 objects without transferring the data first to a data lake
+-   S3 Athena --- S3 Select based query analysis on S3 objects without transferring the data first to a data lake
 -   S3 Object Lock
--   S3 Inventory --- Reporting for auditing purposes of all S3 objects. Reports can be stored in json, yaml or parquet format
--   S3 Batch Operations : Run lambda function or other operations on millions of objects in one go
+-   S3 Inventory --- Reporting for auditing purposes of all S3 objects. Reports can be stored in json, yaml or parquet format
+-   S3 Batch Operations : Run lambda function or other operations on millions of objects in one go
 
 * * * * *
 
@@ -494,9 +503,9 @@ Storage Gateway
 
 Virtual / Physical appliance that sits in your data centre and replicates data to S3
 
-*File Gateway* : Plain files, replicated to S3
+*File Gateway* : Plain files, replicated to S3
 
-*Volume Gateway* : There are two types of Volume Gateways
+*Volume Gateway* : There are two types of Volume Gateways
 
 -   Stored Volumes : Entire data is on-site but backed up on S3 asynchronously
 -   Cached Volumes : Entire data is on S3, but cached data (frequently accessed) is on-site
@@ -509,16 +518,16 @@ SQS (Simple Queue Service)
 ==========================
 
 -   Messages retained for a period of 14 days
--   Messages can arrive out of order however highly unlikely
--   Long polling can be used to avoid cost of frequent polling. Long polling only returns when a message is available and you avoid polling empty queue time and again
+-   Messages can arrive out of order however highly unlikely
+-   Long polling can be used to avoid cost of frequent polling. Long polling only returns when a message is available and you avoid polling empty queue time and again
 -   Visibility of the message can be altered while it is being processed upto a maximum of 12 hours. During this time, a message if processed completely by a worker, can be removed from the queue
 
 SQS Queue Types
 ---------------
 
-*Standard SQS Queue : *This is the standard processing model for SQS service
+*Standard SQS Queue : *This is the standard processing model for SQS service
 
-*FIFO SQS Queue : *In this messages are delivered only once and also arrive in order. Maximum throughput of 300 transactions is supported
+*FIFO SQS Queue : *In this messages are delivered only once and also arrive in order. Maximum throughput of 300 transactions is supported
 
 * * * * *
 
@@ -528,23 +537,23 @@ SWF (Simple Workflow Service)
 This makes more sense when a manual intervention or task oriented workflow is needed in contrast to a message oriented workflow with SQS
 
 -   In contrast SQS is more of a message oriented workflow
--   In SWF, maximum retention period is for 1 year where the messages can be stored
+-   In SWF, maximum retention period is for 1 year where the messages can be stored
 -   This workflow guarantees that a task is processed only once
 
 It works with the following components
 
-i) *Workflow Starters* : Something like web application which triggers a workflow
+i) *Workflow Starters* : Something like web application which triggers a workflow
 
-ii) *Deciders* : Which decide that a particular workflow task has to be executed
+ii) *Deciders* : Which decide that a particular workflow task has to be executed
 
-iii) *Activity Executors* : They execute the real business logic defined in the workflow
+iii) *Activity Executors* : They execute the real business logic defined in the workflow
 
 * * * * *
 
 SNS (Simple Notification Service)
 =================================
 
--   This is push based service in contrast to SQS which is pull based
+-   This is push based service in contrast to SQS which is pull based
 -   One can manage various different topics of notification and different subscribers who can then register with the topic with different subscriptions (SMS, Email, HTTPS etc.)
 -   In order to ensure that updates are not lost, SNS messages are replicated across all AZs
 -   It is immediate notification service with no delays
@@ -556,7 +565,7 @@ Elastic Transcoder
 
 -   Media transcoding service used to convert media files across different formats and resolutions
 -   Supports various templates with best practices for converting media for iphones, android devices, browsers etc.
--   High resolution transcoding service is pay as you go model --- cost depends on resolution and time taken to convert
+-   High resolution transcoding service is pay as you go model --- cost depends on resolution and time taken to convert
 
 * * * * *
 
@@ -577,7 +586,7 @@ API Gateway uses the following things to realise an API that can be exposed to t
 -   Destinations like Lambda, EC2 instances etc. which receive the request
 -   CORS (Cross origin resource sharing is needed to be enabled if requests can originate from various different sources) --- FYI, CORS is always enforced by the client (like browsers)
 
-API Gateway supports throttling API requests on global or API level and also supports caching by defining a fixed data size for storage to be provisioned. With caching enabled you can then avoid passing on redundant calls to the backend systems
+API Gateway supports throttling API requests on global or API level and also supports caching by defining a fixed data size for storage to be provisioned. With caching enabled you can then avoid passing on redundant calls to the backend systems
 
 * * * * *
 
@@ -590,9 +599,9 @@ Kinesis (Streaming Data Ingestion)
 
 Kinesis offers three different types of services:
 
--   *Kinesis Streams* : They work on shards (Shards are containers which define the logical boundaries of data storage). Streams persist the data for minimum 24 hours and maximum 7 days, so that something like Lambda or EC2 can work on this data and understand it
--   *Kinesis Firehose* : This is without persistence --- As soon as data comes in, it has to be read/understood/processed by something like Lambda / EC2 and later the result can be stored in DynamoDB, RDS, S3 or Elastic Cluster etc.
--   *Kinesis Analytics* : This is used for real time analytics over the data that is pushed to the Kinesis Platform
+-   *Kinesis Streams* : They work on shards (Shards are containers which define the logical boundaries of data storage). Streams persist the data for minimum 24 hours and maximum 7 days, so that something like Lambda or EC2 can work on this data and understand it
+-   *Kinesis Firehose* : This is without persistence --- As soon as data comes in, it has to be read/understood/processed by something like Lambda / EC2 and later the result can be stored in DynamoDB, RDS, S3 or Elastic Cluster etc.
+-   *Kinesis Analytics* : This is used for real time analytics over the data that is pushed to the Kinesis Platform
 
 * * * * *
 
@@ -601,8 +610,8 @@ AWS Cognito and Web Identity Federation
 
 AWS Cognito builds upon two concepts:
 
--   *User pools* --- They handle user registration, authentication, password reset etc.
--   *Identity Pools* --- They are more aligned with authorization as they return the AWS credentials which can be temporarily used to assume a role, using which the user can then access various AWS resources
+-   *User pools* --- They handle user registration, authentication, password reset etc.
+-   *Identity Pools* --- They are more aligned with authorization as they return the AWS credentials which can be temporarily used to assume a role, using which the user can then access various AWS resources
 
 Web Identity Federations
 ------------------------
@@ -641,7 +650,7 @@ Custom monitoring scripts written in Perl, Ruby etc. and are available to be ins
 Amazon MQ
 =========
 
-It is a messaging broker with support for large number of protocols and standards, and is usually better when migrating existing messaging broker workloads to the cloud. When building new applications that depend on messaging capabilities, we can always use Amazon SQS which is highly scalable.
+It is a messaging broker with support for large number of protocols and standards, and is usually better when migrating existing messaging broker workloads to the cloud. When building new applications that depend on messaging capabilities, we can always use Amazon SQS which is highly scalable.
 
 Amazon SQS on the other hand is similar but does not support a large number of APIs and protocols.
 

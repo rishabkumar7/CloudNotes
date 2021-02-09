@@ -1,3 +1,12 @@
+---
+template: BlogPost
+path: /aws-cloudpractitioner
+title: 'AWS Cloud Practitioner'
+date: 2020-12-21T12:12:25.364Z
+thumbnail: 'https://rishabincloud.s3.amazonaws.com/CloudNotes/AWSCCP.png'
+tags: 'AWS'
+---
+
 # AWS Certfied Cloud Practitioner
 
 #### Cloud Computing
@@ -45,7 +54,7 @@
         -   Pay as you go: Only pay for the time your code runs
         -   Continuous scaling
         -   Supports subsecond metering. Charged for every 100 milliseconds of execution time
-        -   Some limitations apply: [AWS Lambda Limits](https://docs.aws.amazon.com/lambda/latest/dg/limits.html)
+        -   Some limitations apply: [AWS Lambda Limits](https://docs.aws.amazon.com/lambda/latest/dg/limits.html)
     -   AWS Elastic Beanstalk
         -   Platform as a service
         -   Allows quick deployments of applications
@@ -146,7 +155,7 @@
         -   AICPA
         -   NIST
     -   Constantly scans service endpoints for vulnerabilities
-    -   Compliance programs are listed [here](https://aws.amazon.com/compliance/programs/)
+    -   Compliance programs are listed [here](https://aws.amazon.com/compliance/programs/)
 -   AWS Security Resources
     -   AWS Trusted Advisor: Helps to follow best practices
     -   AWS Account Teams: First point of contact
@@ -154,12 +163,12 @@
     -   AWS Partner Network
     -   AWS Advisories and Bulletins
     -   AWS Auditor Learning Path
-    -   AWS Compliance Solutions Guide: <https://aws.amazon.com/compliance/solutions-guide/>
-    -   AWS Security Blog: <https://aws.amazon.com/blogs/security/>
+    -   AWS Compliance Solutions Guide: <https://aws.amazon.com/compliance/solutions-guide/>
+    -   AWS Security Blog: <https://aws.amazon.com/blogs/security/>
 
 #### Architecting
 
--   Well-architected framework: <https://aws.amazon.com/architecture/well-architected/>
+-   Well-architected framework: <https://aws.amazon.com/architecture/well-architected/>
 -   Fiver pillars of the framework
     -   Operational excellence
     -   Security
