@@ -15,6 +15,7 @@
 <a class="github-button" href="https://github.com/rishabkumar7/CloudNotes" data-size="large" data-show-count="true" aria-label="Star rishabkumar7/CloudNotes on GitHub">Star</a>
 <a class="github-button" href="https://github.com/rishabkumar7/CloudNotes/subscription" data-size="large" data-show-count="true" aria-label="Watch rishabkumar7/CloudNotes on GitHub">Watch</a>
 <a class="github-button" href="https://github.com/rishabkumar7/CloudNotes/issues" data-size="large" data-show-count="true" aria-label="Issue rishabkumar7/CloudNotes on GitHub">Issue</a>
+<iframe src="https://github.com/sponsors/rishabkumar7/button" title="Sponsor rishabkumar7" height="35" width="116" style="border: 0;"></iframe>
 <!-- /Github buttons --> 
 
 
