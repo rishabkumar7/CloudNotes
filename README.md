@@ -1,5 +1,6 @@
 # Cloud Certifications Notes.
 
+![Hits](https://hitcounter.pythonanywhere.com/count/tag.svg?url=https%3A%2F%2Fgithub.com%2Frishabkumar7%2FCloudNotes)
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-VFEQW73JV1"></script>
 <script>
