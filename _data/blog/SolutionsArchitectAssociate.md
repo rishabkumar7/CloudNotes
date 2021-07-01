@@ -2,7 +2,7 @@
 template: BlogPost
 path: /aws-saa
 title: 'AWS Solutions Architect Associate'
-date: 2020-12-21T12:12:25.364Z
+date: 2020-09-10T12:12:25.364Z
 thumbnail: 'https://rishabincloud.s3.amazonaws.com/CloudNotes/AWSSAA.png'
 tags: 'AWS'
 ---

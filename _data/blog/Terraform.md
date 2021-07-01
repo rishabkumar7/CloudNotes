@@ -2,7 +2,7 @@
 template: BlogPost
 path: /terraform-associate
 title: 'HashiCorp Certified Terraform Associate'
-date: 2020-12-21T12:12:25.364Z
+date: 2020-10-01T12:12:25.364Z
 thumbnail: 'https://rishabincloud.s3.amazonaws.com/CloudNotes/TerraformAssociate.png'
 tags: 'Terraform'
 ---

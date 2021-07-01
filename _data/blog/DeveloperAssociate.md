@@ -2,7 +2,7 @@
 template: BlogPost
 path: /aws-cda
 title: 'AWS Developer Associate'
-date: 2020-12-21T12:12:25.364Z
+date: 2020-06-13T12:12:25.364Z
 thumbnail: 'https://rishabincloud.s3.amazonaws.com/CloudNotes/AWSCDA.png'
 tags: 'AWS'
 ---

@@ -2,7 +2,7 @@
 template: BlogPost
 path: /aws-cloudpractitioner
 title: 'AWS Cloud Practitioner'
-date: 2020-12-21T12:12:25.364Z
+date: 2020-01-22T12:12:25.364Z
 thumbnail: 'https://rishabincloud.s3.amazonaws.com/CloudNotes/AWSCCP.png'
 tags: 'AWS'
 ---
