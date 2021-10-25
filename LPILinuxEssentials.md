@@ -1,0 +1,22 @@
+# Linux essentials
+
+## <span id="index"></span>Index
+* [Package management](#package)
+    + [RPM based](#rpm)
+    + [Debian based: APT and dpkg](#debian)
+* [Command-line basics](#cli-basics)
+    + [Command-line syntax](#cli-syntax)
+    + [Basic commands](#basic-commands)
+    + [Command history and completion](#cmd-history)
+    + [shell configuration files](#shell-config-files)
+    + [Environment / shell variables](#variables)
+    + [User-defined variables](#user-def-vars)
+    + [Globbing](#globbing)
+    + [Quoting](#quoting)
+    + [Formatting commands](#formatting)
+    + [Working with options](#options)
+    + [Locate, find, whereis](#locate-find-whereis)
+* [Getting CLI help](#cli-help)
+    + [Linux MAN pages](#man-pages)
+    + [Info pages](#info-pages)
+    + [More local documentation](#more-local-docs)
