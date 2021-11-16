@@ -75,7 +75,6 @@ Uses a sources list located in `etc/apt/sources.list`
 | `dpkg --remove $package_name` | Removes Debian package |
 | `dpkg --purge $package_name` | Removes dependencies |
 
-[Back to table of contents](#toc)
 
 ## <span id="cli-basics"></span>Command-line basics
 Shells are command-line interpreters that accept commands that are then sent to the OS kernel for processing. See list of popular shells I saved as an img on my iPad. You can use any shell installed on the computer by typing its name on the CLI.
@@ -241,7 +240,6 @@ Searches for executables and man page files
 
     whereis cd
 
-[Back to table of contents](#toc)
 
 ## <span id="cli-help"></span>Getting CLI help
 
@@ -289,3 +287,355 @@ Searches for executables and man page files
 | `.odt`                  | LibreOffice, OpenOffice.org, any word processor    |
 | `.pdf`                  | `.xpdf`, Adobe Reader                              |
 | `.tif`, `.png`., `.jpg` | Gimp  
+
+## <span id="linux-file-system"></span>The Linux file system
+The Linux file system and the file system hierarchy standard (FHS)
+
+- The Linux file system uses a hierarchy structure to organize data.
+- Linux systems have a standard set of subdirectories at the root.
+
+| directory          | description                                                 |
+| :---               | :---                                                        |
+| bin                | executables necessary to run the OS                         |
+| boot               | bootloader files to boot Linux                              |
+| dev                | devices that send/receive data sequentially (printers/mice); devices that are block-oriented (HDs, flash drives) |
+| etc                | text-based config files used by the system                  |
+| home               | home folders for users                                      |
+| lib -> usr/lib     | code libraries for programs in the bin or sbin directories  |
+| lib64              | 64-bit libraries                                            |
+| media              | used by some distros to mount external devices              |
+| mnt                | used by some distros to mount other external devices        |
+| opt                | contains files for programs you can install manually        |
+| proc               | pseudo file system for processes                            |
+| root               | root user's home directory                                  |
+| sbin               | mgmt and config files                                       |
+| srv                | where services save their files (e.g., httpd)               |
+| sys                | hardware within system                                      |
+| tmp                | temporary files created by file system                      |
+| usr                | application files                                           |
+| var                | Linux variable data and log files                           |
+
+### <span id="file-system"></span>Disk file systems
+- __ext2:__ second extended file system. Data is stored in hiearchical fashion (dirs/files). 2 TB is max file size.
+- __ext3:__ updated version of ext2. Adds journaling, which records transactions. If the system restarts uncleanly, the entire file system doesn't need to be checked entirely as with ext2.
+- __Reiser:__ similar to ext3 in that journaling makes recovery much quicker.
+- __ext4:__ updated version of ext3.
+
+
+## <span id="files"></span>Files and directories
+- `touch -d "February 1 2017" file.txt`: Allows you to specify the modification timestamp.
+- `mkdir -p newdir/newsubdir/newsubdir2`: Create a directory and its parents if they don't exist.
+- `rmdir $dir`: Can only delete empty directories
+- `cp -puR srcfile dstfile`:
+    + __`p`__ = preserve original ownership
+    + __`u`__ = update (only if src is newer or dst doesn't exist)
+    + __`R`__ = recursive
+- `mv srcfile directory/`: Move/rename file to indicate directory
+
+
+## <span id="archives-compression"></span>Archives and compression
+
+### <span id="archives"></span>Archives
+- __tar:__ Stands for “tape archive.” Combines files but doesn’t compress them. You can pass flags to both archive and compress, since Gzip and Bzip2 are for compressing only. **Note that the order of the flags matters for `tar` command.**
+    + `-c` = create archive
+    + `-f` = read the archive from or write the archive to the specified file
+    + `-t` = list archive's content w/o extracting it
+    + `-x` = extract tarball
+    + `-v` = verbose output (lists files extracted)
+    + `-z` = compress using gzip
+    + `-j` = compress using bzip2 (like gzip but more resources intensive)
+
+__Archive (no compression)__
+
+| Command                           | Notes                                         |
+| :---                              | :---                                          |
+| `tar -cf tarball.tar dir-to-tar`  | creates the tarball from dir-to-tar directory |
+| `tar -cf tarball.tar file1 file2` | creates the tarball from files indicated      |
+
+__Unarchive (no compression)__
+
+| Command                 | Notes                                    |
+| :---                    | :---                                     |
+| `tar -tf tarball.tar`   | show contents of tarball w/o unarchiving |
+| `tar -xf tarball.tar`   | extract tarball                          |
+| `tar -xvf tarball.tar`  | extract tarball, verbose                 |
+
+__Archiving with compression__
+
+While not required, it's best practice to indicate the compression used as part of the file name.
+
+| Command                               | Notes                 |
+| :---                                  | :---                  |
+| `tar -czf tarball.tar.gz dir-to-tar`  | use gzip to compress  |
+| `tar -cjf tarball.tar.bz2 dir-to-tar` | use bzip2 to compress |
+
+__Unarchiving compressed tarballs__
+
+| Command                 | Notes                                      |
+| :---                    | :---                                       |
+| `tar -xzf tarball.tar.gz`   | extract compressed gzipped archive |
+| `tar -xjvf tarball.tar.bz2`   | extract compressed bzip2 archive, verbose |
+
+
+### <span id="compression"></span>Compression
+- __zip:__ Like in Windows. It's the only command that both compresses and archives. It's also the simplest b/c it has few options.
+    + Examples: Compress with `zip` and extract with `unzip`
+        * `zip file.zip file1 [file2]` = create a zipped archive of the specified files
+        * `zip -r file.zip dir-to-zip`
+            - `-r` is required to go into directories and zip their contents, or else you'll zip an empty directory
+        * `unzip file.zip`
+- __gzip:__ Compressed file format. Not for archiving, but for compressing.
+    + Compress with `gzip` and extract with `gunzip`.
+    + File extension is __.gz__.
+    + __Note:__ Gzip deletes the original unless you pass the `-c` flag, or the `-k` flag for "keep."
+    + Examples:
+        * `gzip file.tar` = will replace original file
+        * `gzip -c file.tar > file.tar.gz` = will keep original file and create file.tar.gz
+        * `gzip -k file.tar` = same as above
+        * `gunzip file.tar.gz` = uncompress file
+- __bzip2:__ Better than Gzip, especially for bigger files. Not for archiving, but for compressing.
+    + Compress with `bzip2` and extract with `bunzip`. File extension is __.bz2__
+    + Examples:
+        * `bzip2 file.tar`
+        * `bunzip2 file.tar.bz2`
+
+
+## <span id="searching"></span>Searching for and extracting data from files
+
+### <span id="viewing-text"></span>Viewing text
+
+| Command    | Purpose |
+| :---       | :---     |
+| `cat`      | display contents of a file |
+| `less -M`  | reads file with pagination. <br><br>use `/` to search fwd and `?` to search backwards<br><br> `-M` shows lines you're reading and total, plus percentage <br><br>`-N` shows line numbers on the left <br><br> `G` goes to beginning and `shift` + `G` goes to end |
+| `head`     | read first 10 lines of a file. `-n $num_lines` |
+| `tail`     | read last 10 lines of a file; `-f` = follow |
+| `find`     | locates file on system<br><br>`find . -type d` find directories<br>`find . -type f` find files<br>`find . -iname "file*.` allows globbing |
+
+### <span id="analyzing-text"></span>Analyzing text
+- `grep`: searches for a string; allows globbing<br>
+    + `-r` = recursive
+    + `-i` = case insensitive
+    + `-n` = show line numbers
+    + `-w` = expression is searched for as word
+    + Examples:
+        * `grep ^Sirloin file1.txt`
+        * `grep -i dhcp /var/log/messages`
+        * `grep -n dhcp /var/log/messages`
+        * `grep -rnw '.' -e 'domo'` searches all files in the current folder for the expression
+- `sort`: sorts text alphabetically
+    + `-r` = reverse alphabetically
+- `cut`: Remove text from file and print specified fields to stdout
+    + `-d` = delimiter. E.g., `-d" "` = space character as the delimiter
+    + `-f` = which field to print (based on the delimiter)
+    + Examples:
+        * `cut -d" " -f 6-` = start from field 6 through EOL
+- `wc`: word count. Note that you can specify multiple files.
+    + `-w` = words
+    + `-l` = lines
+    + `-c` = chars
+
+### <span id="pipes"></span>Pipes and regular expressions
+You can pipe the output of one command as the input for another command:
+
+    grep -i republic plato_republic.txt | less
+    grep -i republic plato_republic.txt | wc -w
+
+#### Regular expressions for `grep` command
+
+| Expression     | Description                                       | Example            |
+| :---           | :---                                              | :---               |
+| *              | 0+ repeats of preceding character string or regex | `file*`            |
+| .              | any single char (grep)                            | `.cc`              |
+| ?              | 0+ of proceeding chars                            | `f?le`             |
+| ^              | appears at beginning                              | `^.b`              |
+| $              | appears at end                                    | `^...$` 3 chars    |
+| `\b<needle>\b` | word boundary (must match exactly)                | `\bwww\b`          |
+| [nnn]          | one char btw braces                               | `[abc]`            |
+| [^nnn]         | no chars btw braces                               | `[^abc]`           |
+| [a-z]          | any single char in range                          | `[a-x]`            |
+| [1-90]         | any digit between 1-9, and 0                      | ``                 |
+
+### <span id="redirection"></span>I/O Redirection
+
+#### Redirecting output
+Output is normally displayed on the screen but can be redirected to files or to other commands as input.
+
+    tail /var/log/messages > logtemp.txt    # redirect stdout
+    tail /var/log/messages 1> logtemp.txt   # same as above
+    tail /var/log/messages >> logtemp.txt   # append
+
+    cat bogusfile.txt 2> errors.txt         # redirect stderr
+    cat bogusfile.txt 2>> errors.txt        # append
+
+    command 1> outfile.txt 2> errfile.txt   # redirect to separate files
+
+
+## <span id="scripting"></span>Turning commands into a script
+
+### <span id="text-editing"></span>Basic text editing
+
+#### nano
+- `ctrl` + `k`: cut line
+- `ctrl` + `u`: paste line
+- `ctrl` + `w`: search for text
+- `ctrl` + `t`: spell check
+- `ctrl` + `\`: find and replace
+- `ctrl` + `g`: view help
+- `ctrl` + `x`: exit
+
+#### vim
+- `vimtutor` = built in tutorial from beginner to advanced
+- Insert mode via `i`, `INSERT`, `s`, `o`, `a`
+- There are command mode adn command line mode. Enter command line mode from command mode via `:`
+    + `v` = enter visual mode. `V` = highlights the line; `ctrl` + `V` = visual block
+        * `y` = "yank" or copy highlighted text
+    + `p` = "put" or paste text
+    + `shift` + `a` = append text at end of line
+    + `u` = undo last change
+    + `h` = move left
+    + `j` = move down
+    + `k` = move up
+    + `l` = move right
+    + `dw` = delete word under cursor
+    + `dd` = deline line under cursor (5dd = delete 5 lines)
+    + `shift` + `g` = go to bottom of file
+    + `gg` = go to top of file
+    + `:w` = write to disk
+    + `:wq` or `x` = write to file and quit
+    + `q!` = quit without saving
+
+### <span id="shell-scripting"></span>Shell scripting
+- `#!/bin/bash` = specify an interpreter, (called the shebang)
+- __Arguments:__ $1 -> first arg, $2 -> second arg, $? -> exit code/status
+- __`&&`:__ execute command 2 only if command 1 exits normally
+- __`||`:__ execute command 2 only if command 1 exits abnormally
+- You can combine `&&` and `||` as such:<br>`rm file1.txt && echo "file deleted" || echo "file not deleted"`
+- When scripts are first created, they are not executable. Fix this with `chmod +x <file name>`
+
+#### Basic if statement
+
+    if [ condition ]
+    then
+        command
+    fi
+
+
+    # example
+
+    if ["1" == "1"]
+    then
+        echo "They are the same"
+    fi
+
+#### Basic else statement
+
+    if [ condition ]
+    then
+        command
+    else
+        command
+    fi
+
+
+    # example
+
+    if [ "$PWD" == "$HOME" ]
+    then
+        echo "You are home."
+    else
+        echo "You are in $PWD."
+
+#### Loops
+
+    for i in {1..10}
+    do
+        echo "$i"
+    done
+
+#### Example bash script 1
+
+```bash
+#!/bin/bash
+
+# My daily routine script
+
+# If user enters "day", show calendar and date
+SHOWDAY=$1
+
+if [ "$1" == "day" ]
+then
+    # Display the calendar
+    cal
+
+    # Display the date/time in UTC
+    date -u
+fi
+
+# Daily greeting
+printf "\nHello there, $LOGNAME.\n\n"
+
+if [ "$PWD" == "$HOME" ]
+then
+    echo "You are home."
+else
+    printf "You are in $PWD.\n\n"
+fi
+
+# Show us what we have to work on today
+DOCUMENTS="/Users/jmartinez/Downloads/linux-essentials-practice/text-analysis"
+
+for doc in "$DOCUMENTS"/*.txt
+do
+    echo "$doc"
+done
+```
+
+#### Example bash script 2
+Create the script to set variable values based on args
+
+```bash
+#! /bin/bash
+# list contents of a dir and write the output to a file
+# usage: ./findlist.sh $LOCATION $FILENAME
+
+LOCATION=$1
+FILENAME=$2
+
+if [ -z "$LOCATION" ]
+then
+    echo "Please provide location argument"
+    exit 0
+fi
+
+if [ -z "$FILENAME" ]
+then
+    echo "Please provide a filename"
+    exit 0
+fi
+
+ls -lh  $LOCATION > $FILENAME
+echo
+echo "Script is complete and indexed $LOCATION."
+echo
+echo "###########################"
+echo "Displaying contents of $FILENAME"
+echo "###########################"
+cat $FILENAME
+```
+
+
+## <span id="linux-os"></span>The Linux operating system
+
+### <span id="linux-diffs"></span> Windows, Mac, and Linux differences
+- Windows has a lot of proprietary software and active directory.
+- Apple uses proprietary hardware and software
+- It's now easier to switch to Linux b/c many applications are web based.
+- CLI: Windows has PowerShell and macOS doesn't have a CLI-only mode
+
+### <span id="linux-lifecycle"></span> Linux lifecycle management
+- Design
+- Develop
+- Deploy
+- Manage
+- Retire
