@@ -27,6 +27,9 @@
 - [AWS Developer Associate](/CloudNotes/CDA.html)
 - [AWS SysOps Associate](/CloudNotes/SysOpsAssociate.html)
 
+## Notes for Linux Certifications.
+- [LPI Linux Essentials](/CloudNotes/LPILinuxEssentials.html)
+
 ## Notes for Azure Certfications.
 - [Azure Fundamentals : AZ-900](/CloudNotes/AzureFundamentals.html)
 
