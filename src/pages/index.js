@@ -4,6 +4,7 @@ import { graphql } from 'gatsby'
 import Layout from "../components/layout"
 import PostLink from "../components/post-link"
 import HeroHeader from "../components/heroHeader"
+import AdSense from 'react-adsense';
 
 const IndexPage = ({
   data: {
@@ -26,6 +27,13 @@ const IndexPage = ({
       <h2>Notes &darr;</h2>
       <div className="grids">
         {Posts}
+        <AdSense.Google
+          client='ca-pub-7994317684370171'
+          slot='7806394673'
+          style={{ display: 'block' }}
+          layout='in-article'
+          format='fluid'
+        />
       </div>
     </Layout>
   )
