@@ -1,5 +1,6 @@
 plugins:
   - jekyll-relative-links
+  - jekyll-remote-theme
 relative_links:
   enabled: true
   collections: true
@@ -11,5 +12,4 @@ include:
   - OCIFA.md
 
 #remote_theme: "dracula/gh-pages"
-
-theme: jekyll-theme-midnight
+remote_theme: pages-themes/leap-day@v0.2.0
