@@ -1,7 +1,7 @@
 What is IAC?
 ---------------
 
-Infrastructure as Code it is the process of managing infrastructure in a file or files rather than manually configuring resources in a user interface. A resource in this instance is any piece of infrastructure in a given environment, such as a virtual machine, security group, network interface, etc.
+Infrastructure as Code:It is the process of managing infrastructure in a file or files rather than manually configuring resources in a user interface. A resource in this instance is any piece of infrastructure in a given environment, such as a virtual machine, security group, network interface, etc.
 
 Terraform is a tool for building, changing, and versioning infrastructure safely and efficiently. Terraform can manage existing and popular service providers as well as custom in-house solutions.
 
@@ -43,7 +43,7 @@ Note: Number or integers don't need double quotes, but Terraform automatically 
 
 #### VARIABLES LIST
 
-List is the same than an array. We can store multiple values Remember the first value is the 0 position. For example to access the 0 position is `var.mylist[0]`
+List is same as an array. We can store multiple values Remember the first value is the 0 position. For example to access the 0 position is `var.mylist[0]`
 
 ```
 variable "mylist" {
