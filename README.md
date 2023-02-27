@@ -9,7 +9,9 @@
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/rishabkumar7?style=social)](https://github.com/sponsors/rishabkumar7)
 <!-- /Github buttons --> 
 
-These are my notes that I took while preparing for the cloud certifications. The web-version is available [here.](https://rishabkumar.com/notes)
+These are my notes that I took while preparing for the cloud certifications.
+The web-version is available [here.](https://rishabkumar.com/notes)
+
 You can support me 👉 [![Buy me a coffee](https://img.shields.io/static/v1.svg?label=Buy%20me%20a%20coffee&message=🥨&color=black&logo=buy%20me%20a%20coffee&logoColor=white&labelColor=6f4e37)](https://www.buymeacoffee.com/rishabincloud)
 
 ## AWS Certifications
@@ -37,4 +39,4 @@ Please check out these amazing CheatSheets:
 - [DigitalCloud Cheat Sheets](https://digitalcloud.training/certification-training/)
 
 ## License
-[MIT License]()
+[MIT License](https://github.com/rishabkumar7/CloudNotes/blob/master/LICENSE)
