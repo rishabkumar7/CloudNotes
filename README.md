@@ -15,22 +15,22 @@ The web-version is available [here.](https://rishabkumar.com/notes)
 You can support me 👉 [![Buy me a coffee](https://img.shields.io/static/v1.svg?label=Buy%20me%20a%20coffee&message=🥨&color=black&logo=buy%20me%20a%20coffee&logoColor=white&labelColor=6f4e37)](https://www.buymeacoffee.com/rishabincloud)
 
 ## AWS Certifications
-- [AWS Cloud Practitioner](/CloudNotes/CPP.md)
-- [AWS Solutions Architect Associate](/CloudNotes/SAA.md)
-- [AWS Developer Associate](/CloudNotes/CDA.md)
-- [AWS SysOps Associate](/CloudNotes/SysOpsAssociate.md)
+- [AWS Cloud Practitioner](CPP.md)
+- [AWS Solutions Architect Associate](SAA.md)
+- [AWS Developer Associate](CDA.md)
+- [AWS SysOps Associate](SysOpsAssociate.md)
 
 ## Linux Certifications
-- [LPI Linux Essentials](/CloudNotes/LPILinuxEssentials.html)
+- [LPI Linux Essentials](LPILinuxEssentials.md)
 
 ## Azure Certfications
-- [Azure Fundamentals : AZ-900](/CloudNotes/AzureFundamentals.html)
+- [Azure Fundamentals : AZ-900](AzureFundamentals.md)
 
 ## Terraform Certifications
-- [Terraform Associate Certification](/CloudNotes/Terraform.html)
+- [Terraform Associate Certification](Terraform.md)
 
 ## OCI Certifications.
-- [OCI Foundations Associate](/CloudNotes/OCIFA.html)
+- [OCI Foundations Associate](OCIFA.md)
 
 I will be adding notes for other Exams.
 
