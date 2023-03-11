@@ -15,10 +15,10 @@ The web-version is available [here.](https://rishabkumar.com/notes)
 You can support me 👉 [![Buy me a coffee](https://img.shields.io/static/v1.svg?label=Buy%20me%20a%20coffee&message=🥨&color=black&logo=buy%20me%20a%20coffee&logoColor=white&labelColor=6f4e37)](https://www.buymeacoffee.com/rishabincloud)
 
 ## AWS Certifications
-- [AWS Cloud Practitioner](/CloudNotes/CPP.html)
-- [AWS Solutions Architect Associate](/CloudNotes/SAA.html)
-- [AWS Developer Associate](/CloudNotes/CDA.html)
-- [AWS SysOps Associate](/CloudNotes/SysOpsAssociate.html)
+- [AWS Cloud Practitioner](/CloudNotes/CPP.md)
+- [AWS Solutions Architect Associate](/CloudNotes/SAA.md)
+- [AWS Developer Associate](/CloudNotes/CDA.md)
+- [AWS SysOps Associate](/CloudNotes/SysOpsAssociate.md)
 
 ## Linux Certifications
 - [LPI Linux Essentials](/CloudNotes/LPILinuxEssentials.html)
