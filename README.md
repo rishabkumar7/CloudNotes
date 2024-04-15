@@ -37,6 +37,17 @@ I will be adding notes for other Exams.
 Please check out these amazing CheatSheets:
 - [TutorialDojo Cheat Sheets](https://tutorialsdojo.com/aws-cheat-sheets/)
 - [DigitalCloud Cheat Sheets](https://digitalcloud.training/certification-training/)
+- [Rishab Kumar Cheat Sheets](https://www.buymeacoffee.com/rishabincloud/extras)
+
+## Star History
+
+<a href="https://star-history.com/#rishabkumar7/CloudNotes&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=rishabkumar7/CloudNotes&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=rishabkumar7/CloudNotes&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=rishabkumar7/CloudNotes&type=Date" />
+ </picture>
+</a>
 
 ## License
 [MIT License](https://github.com/rishabkumar7/CloudNotes/blob/master/LICENSE)
