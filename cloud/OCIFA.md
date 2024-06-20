@@ -1,4 +1,4 @@
-# OCIFoundationsAssociate
+# OCI Foundations Associate
 =======================
 
 **OCI Architecture**
