@@ -1,7 +1,7 @@
 # My Cloud Certifications Notes
 
 [![Website](https://img.shields.io/website?down_color=red&down_message=down&up_color=green&up_message=up&url=https%3A%2F%2Frishabkumar.com/notes)](https://rishabkumar.com/notes) 
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Frishabkumar7%2FCloudNotes&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
+![Badge](https://hitscounter.dev/api/hit?url=https%3A%2F%2Fgithub.com%2Frishabkumar7%2FCloudNotes&label=Hits&icon=github&color=%23198754)
 [![Twitter Follow](https://img.shields.io/twitter/follow/rishabincloud?style=social)](https://twitter.com/rishabincloud)
 
 <!-- Github buttons -->
@@ -14,18 +14,24 @@ The web-version is available [here.](https://rishabkumar.com/notes)
 
 You can support me 👉 [![Buy me a coffee](https://img.shields.io/static/v1.svg?label=Buy%20me%20a%20coffee&message=🥨&color=black&logo=buy%20me%20a%20coffee&logoColor=white&labelColor=6f4e37)](https://www.buymeacoffee.com/rishabincloud)
 
+## Linux Certifications
+- [LPI Linux Essentials](/linux/LPILinuxEssentials.md)
+
 ## AWS Certifications
 - [AWS Cloud Practitioner](/cloud/AWS-CCP.md)
 - [AWS Solutions Architect Associate](/cloud/AWS-SAA.md)
 - [AWS Developer Associate](/cloud/AWS-CDA.md)
 - [AWS SysOps Associate](/cloud/AWS-SysOpsAssociate.md)
 
-## Linux Certifications
-- [LPI Linux Essentials](/linux/LPILinuxEssentials.md)
-
 ## Azure Certfications
 - [Azure Fundamentals : AZ-900](/cloud/AzureFundamentals.md)
 - [Azure AI Engineer Associate : AI-102 ](/cloud/AzureAIEngineer-AI-102.md)
+
+## GCP Certifications
+- [GCP Professional Cloud Security Engineer](/cloud/GCP-ProfessionalCloudSecurity.md)
+
+## Kubernetes Certifications
+- [Kubernetes and Cloud Native Associate - KCNA](/devops/KCNA.md)
 
 ## Terraform Certifications
 - [Terraform Associate Certification](/devops/Terraform.md)
