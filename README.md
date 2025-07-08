@@ -28,6 +28,7 @@ You can support me 👉 [![Buy me a coffee](https://img.shields.io/static/v1.svg
 - [Azure AI Engineer Associate : AI-102 ](/cloud/AzureAIEngineer-AI-102.md)
 
 ## GCP Certifications
+- [GCP Generative AI Leader](/cloud/GCP-GenAILeader.md)
 - [GCP Professional Cloud Security Engineer](/cloud/GCP-ProfessionalCloudSecurity.md)
 
 ## Kubernetes Certifications
