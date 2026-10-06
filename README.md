@@ -26,6 +26,7 @@ You can support me 👉 [![Buy me a coffee](https://img.shields.io/static/v1.svg
 ## Azure Certfications
 - [Azure Fundamentals : AZ-900](/cloud/AzureFundamentals.md)
 - [Azure AI Engineer Associate : AI-102 ](/cloud/AzureAIEngineer-AI-102.md)
+- [Azure AI Apps and Agents Developer Associate : AI-103](/cloud/AzureAIAppsAgentsDeveloper-AI-103.md)
 
 ## GCP Certifications
 - [GCP Generative AI Leader](/cloud/GCP-GenAILeader.md)
