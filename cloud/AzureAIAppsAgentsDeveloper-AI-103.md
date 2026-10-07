@@ -1,153 +1,254 @@
 # Azure AI Apps and Agents Developer Associate
 
-## Exam Overview
+## <span id="index"></span>Index
+* [Exam overview](#overview)
+    + [Exam domains](#domains)
+    + [If you are coming from AWS](#aws)
+    + [Exam day tips](#exam-tips)
+* [Plan and manage an Azure AI solution](#plan-manage)
+    + [Foundry object model](#object-model)
+    + [Choosing a model](#choosing-model)
+    + [Deployment types](#deployment-types)
+    + [Quotas, scale and cost](#quotas)
+    + [Monitoring](#monitoring)
+    + [Security](#security)
+    + [Responsible AI](#responsible-ai)
+* [Generative AI and agentic solutions](#genai-agents)
+    + [RAG](#rag)
+    + [Agent building blocks](#agent-blocks)
+    + [Agent tools](#agent-tools)
+    + [Multi-agent orchestration](#multi-agent)
+    + [Code shape to recognize](#code-shape)
+    + [Evaluations](#evaluations)
+    + [Optimize and operationalize](#optimize)
+* [Computer vision](#vision)
+    + [Generate and edit](#generate-edit)
+    + [Understand images and video](#understand-media)
+    + [Azure Content Understanding](#content-understanding)
+    + [Responsible AI for images](#rai-images)
+* [Text analysis and speech](#text-speech)
+    + [Text analysis](#text-analysis)
+    + [Translation](#translation)
+    + [Speech](#speech)
+* [Information extraction](#info-extraction)
+    + [Azure AI Search pipeline](#search-pipeline)
+    + [Query types](#query-types)
+    + [Multimodal ingestion](#multimodal-ingestion)
+    + [Connect retrieval to agents](#retrieval-agents)
+    + [Extract content from documents](#extract-docs)
+* [If the question says X, pick Y](#x-pick-y)
+* [Common traps](#traps)
+* [Self-check questions](#self-check)
+* [Resources](#resources)
 
-This part contains the general information about the exam e.g. the domains, their weightage and how the exam is different from the older AI-102.
+## <span id="overview"></span>Exam overview
+AI-103 is Foundry-first. More than half the score (55-65%) is planning/securing Foundry and building gen AI apps and agents, so most of the study time should go there.
 
--   Pass mark --- 700/1000
--   Question style --- Scenario-based, Python-flavored, and mostly on GA features (common preview features can appear)
--   Foundry-first --- More than half the score (55-65%) is planning/securing Foundry and building gen AI apps and agents, so most of the study time should go there
--   Shift from AI-102 --- Stop thinking "which Cognitive Service?" and start thinking "which Foundry capability, model, or tool?". The old services now show up as Foundry Tools (Language, Speech, Translator, Vision, Content Understanding, Document Intelligence) inside a Foundry resource + project.
+- Pass mark is 700/1000.
+- Questions are scenario-based, Python-flavored, and mostly on GA features (common preview features can appear).
+- The shift from AI-102: stop thinking "which Cognitive Service?" and start thinking "which Foundry capability, model, or tool?"
+- The old services now show up as __Foundry Tools__ (Language, Speech, Translator, Vision, Content Understanding, Document Intelligence) inside a Foundry resource + project.
 
-### Exam domains:
+### <span id="domains"></span>Exam domains
 
--   Plan and manage an Azure AI solution (25-30%) --- Model/service choice, deployment types, quotas, security, responsible AI
--   Generative AI and agentic solutions (30-35%) --- RAG, Foundry Agent Service, tools, multi-agent, evals, tracing
--   Computer vision (10-15%) --- Image/video generation and editing, multimodal understanding, Content Understanding
--   Text analysis incl. speech (10-15%) --- LLM extraction, Language, Translator, Speech
--   Information extraction (10-15%) --- Azure AI Search, skillsets, Content Understanding for documents
+| Domain | Weight | What it covers |
+| :--- | :--- | :--- |
+| Plan and manage an Azure AI solution | 25-30% | Model/service choice, deployment types, quotas, security, responsible AI |
+| Generative AI and agentic solutions | 30-35% | RAG, Foundry Agent Service, tools, multi-agent, evals, tracing |
+| Computer vision | 10-15% | Image/video generation and editing, multimodal understanding, Content Understanding |
+| Text analysis (incl. speech) | 10-15% | LLM extraction, Language, Translator, Speech |
+| Information extraction | 10-15% | Azure AI Search, skillsets, Content Understanding for documents |
 
-### If you are coming from AWS:
+### <span id="aws"></span>If you are coming from AWS
 
--   Foundry resource + project --- Bedrock account setup + a workspace boundary
--   Foundry Agent Service --- Bedrock Agents / AgentCore Runtime
--   Foundry Tools catalog, MCP tool, OpenAPI tool --- Action groups, AgentCore Gateway
--   Azure AI Search --- OpenSearch / Kendra / Bedrock Knowledge Bases
--   Azure AI Content Safety, guardrails --- Bedrock Guardrails
--   Content Understanding --- Bedrock Data Automation
--   Foundry evaluations + tracing (App Insights) --- Bedrock evaluations + AgentCore Observability
+| Azure / Foundry | Closest AWS mental model |
+| :--- | :--- |
+| Foundry resource + project | Bedrock account setup + a workspace boundary |
+| Foundry Agent Service | Bedrock Agents / AgentCore Runtime |
+| Foundry Tools catalog, MCP tool, OpenAPI tool | Action groups, AgentCore Gateway |
+| Azure AI Search | OpenSearch / Kendra / Bedrock Knowledge Bases |
+| Azure AI Content Safety, guardrails | Bedrock Guardrails |
+| Content Understanding | Bedrock Data Automation |
+| Foundry evaluations + tracing (App Insights) | Bedrock evaluations + AgentCore Observability |
 
-### Exam day tips:
+### <span id="exam-tips"></span>Exam day tips
+- Read the last sentence of the question first. It tells you what is being asked (cheapest, least effort, most secure).
+- Flag the question and move on if it is taking more than 90 seconds.
+- Case studies can't be revisited once you leave them.
 
--   Read the last sentence of the question first, it tells you what is being asked e.g. cheapest, least effort, most secure
--   Flag the question and move on if it is taking more than 90 seconds
--   Case studies can't be revisited once you leave them
 
-## Plan and manage an Azure AI solution
+## <span id="plan-manage"></span>Plan and manage an Azure AI solution
+Most questions here are "pick the right option under a constraint" (cost, latency, residency, security). Know the object model, the deployment types, and the security defaults cold.
 
-This part contains the Foundry object model, how to choose a model and deployment type, quotas, monitoring, security and responsible AI. Most questions here are "pick the right option under a constraint" e.g. cost, latency, data residency or security.
+### <span id="object-model"></span>Foundry object model
+- __Foundry resource__ (kind `AIServices`): The top-level Azure resource. Holds model deployments, Foundry Tools, networking, keys/identity.
+- __Foundry project:__ The working boundary inside the resource. Holds agents, connections, evaluations, traces, files.
+    + Apps connect with the project endpoint: `https://<resource>.services.ai.azure.com/api/projects/<project>`
+    + Use `AIProjectClient` + `DefaultAzureCredential`
+- __Connections:__ How a project reaches outside resources (Azure AI Search, Storage, Bing grounding, MCP servers, APIs).
+    + Credentials live in the connection, not in code or prompts.
 
-### Foundry object model:
+### <span id="choosing-model"></span>Choosing a model
 
--   Foundry resource (kind `AIServices`) --- The top-level Azure resource. It holds the model deployments, Foundry Tools, networking, keys/identity.
--   Foundry project --- The working boundary inside the resource. It holds agents, connections, evaluations, traces and files. Apps connect with the project endpoint (`https://<resource>.services.ai.azure.com/api/projects/<project>`) using `AIProjectClient` + `DefaultAzureCredential`.
--   Connections --- How a project reaches the outside resources e.g. Azure AI Search, Storage, Bing grounding, MCP servers, APIs. The credentials live in the connection, not in the code or the prompts.
+| Need | Pick |
+| :--- | :--- |
+| General chat, strong reasoning, tool calling | Flagship LLM (GPT-4.1 / GPT-5 class) |
+| Hard multistep reasoning, math, planning | Reasoning model (o-series / GPT-5 reasoning) |
+| Cheap, fast, edge or offline, simple tasks | Small language model (Phi family, mini/nano variants); Foundry Local for on-device |
+| Images + text in one call | Multimodal model (GPT-4o / 4.1 class) |
+| Vectors for search | Embedding model (text-embedding-3-small/large) |
+| Generate or edit images | gpt-image-1 class, FLUX |
+| Generate video | Sora class |
+| Low-latency voice conversation | Realtime / audio models, or Speech + LLM |
+| Prebuilt task (translate, OCR, PII, STT) | A Foundry Tool, not an LLM |
 
-### Choosing a model:
+- The smallest model that meets quality wins cost questions.
+- A Foundry Tool beats a prompt when the task is standard and deterministic output matters.
+- Model names change often. Where a model is named, treat it as "the current model of that class".
 
--   General chat, strong reasoning, tool calling --- Flagship LLM (GPT-4.1 / GPT-5 class)
--   Hard multistep reasoning, math, planning --- Reasoning model (o-series / GPT-5 reasoning)
--   Cheap, fast, edge or offline, simple tasks --- Small language model (Phi family, mini/nano variants). Foundry Local for on-device.
--   Images + text in one call --- Multimodal model (GPT-4o / 4.1 class)
--   Vectors for search --- Embedding model (text-embedding-3-small/large)
--   Generate or edit images --- gpt-image-1 class, FLUX
--   Generate video --- Sora class
--   Low-latency voice conversation --- Realtime / audio models, or Speech + LLM
--   Prebuilt task (translate, OCR, PII, STT) --- A Foundry Tool, not an LLM
+### <span id="deployment-types"></span>Deployment types
 
-Note: The smallest model that meets the quality wins the cost questions. A Foundry Tool beats a prompt when the task is standard and deterministic output matters.
+| Type | Use when |
+| :--- | :--- |
+| Global Standard | Default. Pay per token, highest quota, data may process in any Azure region |
+| Data Zone Standard | Pay per token but processing must stay in the US or EU data zone |
+| Standard (regional) | Processing must stay in one region |
+| Provisioned (Global / Data Zone / Regional), PTUs | Predictable latency and throughput for steady high volume; reserved capacity |
+| Global Batch / Data Zone Batch | Large async jobs, about 50% cheaper, results within 24 hours |
+| Serverless API vs managed compute | Partner/open models: serverless = pay per token, managed compute = you pay for VMs |
 
-Note: Model names change often, so where a model is named treat it as "the current model of that class".
+### <span id="quotas"></span>Quotas, scale and cost
+- Quota is __TPM__ (tokens per minute) and __RPM__ per model, per region, per subscription.
+- Hitting the quota returns __HTTP 429__.
+    + Honor the `retry-after` header
+    + Use exponential backoff
+- Scale beyond one deployment: more regions/deployments behind __Azure API Management__ as an AI gateway.
+    + Load balancing
+    + Token-limit policy
+    + Token metrics
+    + Semantic caching
+- Provisioned can spill over to Standard.
+- Cost levers:
+    + Smaller model
+    + Batch
+    + Prompt caching
+    + Shorter prompts / `max_tokens`
+    + Semantic cache
+    + PTU reservations for steady load
 
-### Deployment types:
+### <span id="monitoring"></span>Monitoring
+- __Models/agents:__
+    + Azure Monitor metrics (tokens, latency, 429s)
+    + Application Insights tracing via OpenTelemetry
+    + Foundry observability dashboards
+    + Continuous evaluation on production traffic
+- __Search:__
+    + Indexer execution history and errors
+    + Index size / document count
+    + Query latency
+    + Relevance testing
 
--   Global Standard --- The default. Pay per token, highest quota, but the data may be processed in any Azure region.
--   Data Zone Standard --- Pay per token, but the processing must stay in the US or EU data zone
--   Standard (regional) --- The processing must stay in one region
--   Provisioned (Global / Data Zone / Regional) --- Reserved capacity with PTUs. Use it for predictable latency and throughput on steady high volume.
--   Global Batch / Data Zone Batch --- Large async jobs, about 50% cheaper, results within 24 hours
--   Serverless API vs Managed compute --- For partner/open models. Serverless is pay per token, with managed compute you pay for the VMs.
+### <span id="security"></span>Security
+- __Keyless:__ Microsoft Entra ID + managed identity, `DefaultAzureCredential`, disable local (key) auth. Keys only in Key Vault if you must.
+- __RBAC:__ Least privilege.
+    + A user/app role to call models and agents (Azure AI User / Cognitive Services OpenAI User)
+    + A higher role to create deployments and manage the resource
+    + Grant the Foundry managed identity roles on the AI Search and Storage it reads
+- __Network:__ Private endpoints, disable public network access, VNet injection for agents.
+- __Agent setup:__
+    + __Basic__ = Microsoft-managed storage
+    + __Standard__ = bring your own Cosmos DB (threads/conversations), Storage (files), AI Search (vectors)
+    + Pick Standard for compliance, residency, or private networking
+- __CI/CD:__ Azure Developer CLI (`azd`) + Bicep/Terraform, GitHub Actions or Azure DevOps. Run evaluations as a pipeline gate before promotion.
 
-### Quotas, scale and cost:
+### <span id="responsible-ai"></span>Responsible AI
+- __Content filters / guardrails:__ Applied to input __and__ output.
+    + Harm categories: hate, sexual, violence, self-harm
+    + Severity levels: safe, low, medium, high
+- Add-ons:
+    + __Prompt Shields__ = user jailbreaks + indirect/document attacks
+    + Groundedness detection
+    + Protected material (text and code)
+    + Custom blocklists
+    + PII detection
+    + Task adherence for agents
+- __Evaluators:__
+    + Quality: groundedness, relevance, coherence, fluency, similarity, retrieval
+    + Safety: harmful content, indirect attack, protected material, code vulnerability
+    + Agent: intent resolution, tool call accuracy, task adherence
+- __AI Red Teaming Agent__ (PyRIT) for adversarial testing.
+- __Auditing:__ Trace logs, provenance metadata (C2PA content credentials on generated images), approval workflows.
+- __Agent governance:__
+    + Tool allow-lists
+    + Per-tool auth
+    + `require_approval="always"` on MCP tools
+    + Human-in-the-loop for high-impact actions
+    + Agent identity in Entra
 
--   Quota --- TPM (tokens per minute) and RPM per model, per region, per subscription
--   HTTP 429 --- This is what you get when you hit the quota. Honor the `retry-after` header and use exponential backoff.
--   Scaling beyond one deployment --- More regions/deployments behind Azure API Management as an AI gateway (load balancing, token-limit policy, token metrics, semantic caching). Provisioned can also spill over to Standard.
--   Cost levers --- Smaller model, Batch, prompt caching, shorter prompts/`max_tokens`, semantic cache, PTU reservations for steady load
 
-### Monitoring:
+## <span id="genai-agents"></span>Generative AI and agentic solutions
+The biggest domain. If you only master one thing: which agent tool solves which problem, and how grounding (RAG) is wired into agents.
 
--   Models and agents --- Azure Monitor metrics (tokens, latency, 429s), Application Insights tracing via OpenTelemetry, Foundry observability dashboards, continuous evaluation on production traffic
--   Search --- Indexer execution history and errors, index size/document count, query latency, relevance testing
+### <span id="rag"></span>RAG
+- Ingest → chunk → embed → index (Azure AI Search)
+- At query time, run __hybrid search__ (keyword + vector) + __semantic ranker__
+- Put the top chunks in the prompt
+- Answer with citations
+- Evaluate groundedness
+- __Agentic retrieval__ (Azure AI Search knowledge bases / Foundry IQ): Newer pattern where an LLM plans and runs subqueries for you. Use it for complex multi-part questions.
 
-### Security:
+### <span id="agent-blocks"></span>Agent building blocks
+- Agent = model + instructions (role, goal, constraints) + tools.
+- Kinds of agents:
+    + __Prompt agent:__ declarative, no code hosting
+    + __Workflow:__ multi-step orchestration, visual or YAML
+    + __Hosted agent:__ your containerized code (e.g., Microsoft Agent Framework or LangGraph)
+- __Conversation state:__
+    + New API uses conversations + Responses API
+    + Classic API used thread → message → run
+    + Classic agents are deprecated and retire March 31, 2027, but exam questions may still show thread/run code. Know both vocabularies.
+- __Memory:__
+    + Short-term = the conversation
+    + Long-term = agent memory store (preview) or your own store (Cosmos DB)
+    + Trim or summarize long histories to fit context
+- __Tool schemas:__ Function tools are JSON Schema (name, description, parameters, required). Good descriptions drive correct tool selection.
 
--   Keyless auth --- Microsoft Entra ID + managed identity, `DefaultAzureCredential`, and disable local (key) auth. Keys only in Key Vault if you really must.
--   RBAC --- Least privilege. A user/app role to call the models and agents (Azure AI User / Cognitive Services OpenAI User), and a higher role to create deployments and manage the resource. Also grant the Foundry managed identity roles on the AI Search and Storage it reads from.
--   Network --- Private endpoints, disable public network access, VNet injection for agents
--   Basic agent setup --- Microsoft-managed storage
--   Standard agent setup --- Bring your own Cosmos DB (threads/conversations), Storage (files) and AI Search (vectors). Pick Standard for compliance, data residency or private networking.
--   CI/CD --- Azure Developer CLI (`azd`) + Bicep/Terraform, GitHub Actions or Azure DevOps, and run evaluations as a pipeline gate before promotion
+### <span id="agent-tools"></span>Agent tools
 
-### Responsible AI:
+| Scenario | Tool |
+| :--- | :--- |
+| Answer from a few uploaded files, zero infra | File Search (managed vector store) |
+| Answer from an existing enterprise index | Azure AI Search tool (via project connection) |
+| Current public info from the web | Grounding with Bing / Web search |
+| Math, data analysis, charts, file transforms | Code Interpreter (sandboxed Python) |
+| Call your own logic in your app process | Function calling (model returns a call; your code runs it and submits output) |
+| Call an existing REST API with a spec | OpenAPI tool (anonymous, API key via connection, or managed identity) |
+| Reuse a remote tool server | MCP tool (`server_label`, `server_url`, `require_approval`, connection for auth) |
+| Low-code business workflow | Azure Logic Apps / Azure Functions |
+| M365 docs or Fabric data | SharePoint tool / Fabric data agent |
+| Multi-step web research report | Deep Research tool |
+| Let a main agent delegate | Connected agents / A2A |
 
--   Content filters / guardrails --- Harm categories are hate, sexual, violence and self-harm at severity levels (safe, low, medium, high). They are applied to both the input and the output.
--   Prompt Shields --- Detects user jailbreaks and indirect (document) attacks
--   Other add-ons --- Groundedness detection, protected material (text and code), custom blocklists, PII detection, task adherence for agents
--   Quality evaluators --- Groundedness, relevance, coherence, fluency, similarity, retrieval
--   Safety evaluators --- Harmful content, indirect attack, protected material, code vulnerability
--   Agent evaluators --- Intent resolution, tool call accuracy, task adherence
--   AI Red Teaming Agent --- Adversarial testing, built on PyRIT
--   Auditing --- Trace logs, provenance metadata (C2PA content credentials on generated images), approval workflows
--   Agent governance --- Tool allow-lists, per-tool auth, `require_approval="always"` on MCP tools, human-in-the-loop for high-impact actions, agent identity in Entra
+### <span id="multi-agent"></span>Multi-agent orchestration
+- __Connected agents:__ An orchestrator agent calls specialist agents as tools. Simple delegation, no custom code.
+- __Workflows / Microsoft Agent Framework patterns:__
+    + Sequential
+    + Concurrent (fan-out/fan-in)
+    + Group chat
+    + Handoff
+    + Human-in-the-loop checkpoints
+- Agent Framework is the successor to Semantic Kernel + AutoGen.
+- __A2A__ protocol is for agents across platforms; __MCP__ is for tools.
+- Safeguards for autonomy:
+    + Approval steps before irreversible actions
+    + Max iterations / turn limits
+    + Tool allow-lists
+    + Content filters on both input and output
+    + Task adherence checks
 
-## Generative AI and agentic solutions
+### <span id="code-shape"></span>Code shape to recognize
 
-This part contains RAG, the building blocks of an agent, the agent tools, multi-agent orchestration, evaluations and optimization. This is the biggest domain. If we can only master one thing, it should be which agent tool solves which problem, and how grounding (RAG) is wired into the agents.
-
-### RAG:
-
--   Ingestion --- Ingest, chunk, embed and index the data in Azure AI Search
--   Query time --- Run hybrid search (keyword + vector) + semantic ranker, put the top chunks in the prompt, answer with citations
--   After --- Evaluate the groundedness
--   Agentic retrieval --- The newer pattern (Azure AI Search knowledge bases / Foundry IQ), where an LLM plans and runs the subqueries for you. Use it for complex multi-part questions.
-
-### Agent building blocks:
-
--   Agent --- Model + instructions (role, goal, constraints) + tools
--   Prompt agent --- Declarative, no code hosting
--   Workflow --- Multi-step orchestration, visual or YAML
--   Hosted agent --- Your own containerized code e.g. Microsoft Agent Framework or LangGraph
--   Conversation state --- The new API uses conversations + Responses API. The classic API used thread → message → run. Classic agents are deprecated and retire on March 31, 2027, but the exam questions may still show thread/run code, so know both vocabularies.
--   Short-term memory --- The conversation itself
--   Long-term memory --- Agent memory store (preview) or your own store e.g. Cosmos DB. Trim or summarize long histories to fit the context.
--   Tool schemas --- Function tools are JSON Schema (name, description, parameters, required). Good descriptions drive the correct tool selection.
-
-### Agent tools:
-
--   File Search --- Answer from a few uploaded files with zero infra. The service builds a managed vector store.
--   Azure AI Search tool --- Answer from an existing enterprise index, via a project connection
--   Grounding with Bing / Web search --- Current public info from the web
--   Code Interpreter --- Math, data analysis, charts, file transforms. It is sandboxed Python.
--   Function calling --- Call your own logic in your app process. The model returns a call, your code runs it and submits the output.
--   OpenAPI tool --- Call an existing REST API which has a spec. Auth can be anonymous, API key via connection, or managed identity.
--   MCP tool --- Reuse a remote tool server (`server_label`, `server_url`, `require_approval`, connection for auth)
--   Azure Logic Apps / Azure Functions --- Low-code business workflow
--   SharePoint tool / Fabric data agent --- M365 docs or Fabric data
--   Deep Research tool --- Multi-step web research report
--   Connected agents / A2A --- Let a main agent delegate to other agents
-
-### Multi-agent orchestration:
-
--   Connected agents --- An orchestrator agent calls the specialist agents as tools. Simple delegation, no custom code.
--   Workflow patterns --- Sequential, concurrent (fan-out/fan-in), group chat, handoff, and human-in-the-loop checkpoints
--   Microsoft Agent Framework --- The successor to Semantic Kernel + AutoGen
--   A2A protocol --- For agents across platforms. MCP is for tools.
--   Safeguards for autonomy --- Approval steps before irreversible actions, max iterations/turn limits, tool allow-lists, content filters on both input and output, task adherence checks
-
-### Code shape to recognize:
-
-```
+```python
 from azure.identity import DefaultAzureCredential
 from azure.ai.projects import AIProjectClient
 
@@ -156,232 +257,288 @@ project = AIProjectClient(endpoint=PROJECT_ENDPOINT,
 # new API: define agent (model + instructions + tools),
 # then call it through the OpenAI-compatible Responses API
 # classic API: create_agent -> threads.create -> messages.create -> runs.create_and_process
-
 ```
 
-Note: When the code uses an API key where Entra would work, the "most secure" answer swaps in `DefaultAzureCredential`.
+- When code uses an API key where Entra would work, the "most secure" answer swaps in `DefaultAzureCredential`.
 
-### Evaluations:
+### <span id="evaluations"></span>Evaluations
 
--   Fabrication / hallucination --- Groundedness evaluator i.e. is the answer supported by the retrieved context?
--   Did the retrieval work? --- Retrieval / relevance evaluators
--   Is it well written? --- Coherence, fluency
--   Agents --- Intent resolution, tool call accuracy, task adherence
--   How to run --- With the `azure-ai-evaluation` SDK or the Foundry portal, on a test dataset. Compare the runs, wire it into CI/CD, and enable continuous evaluation in production.
--   Error analysis --- Read the traces of the failed cases
+| Question | Evaluator |
+| :--- | :--- |
+| Fabrication / hallucination | Groundedness (is the answer supported by retrieved context?) |
+| Did retrieval work? | Retrieval / relevance |
+| Is it well written? | Coherence, fluency |
+| Agents | Intent resolution, tool call accuracy, task adherence |
 
-### Optimize and operationalize:
+- Run with the `azure-ai-evaluation` SDK or the Foundry portal, on a test dataset.
+- Compare runs, wire into CI/CD, enable continuous evaluation in production.
+- Error analysis = read the traces of failed cases.
 
--   Order of fixes --- Prompt engineering → RAG (knowledge gaps) → fine-tuning (style/format/behavior, or distill to a cheaper model)
--   Fine-tuning types --- SFT, DPO (preference), RFT (reasoning models)
--   Temperature / top_p --- Change one, not both. Low temperature for extraction/factual, higher for creative.
--   Other parameters --- `max_tokens`, stop sequences, frequency/presence penalties, `reasoning_effort` on reasoning models
--   Structured outputs --- JSON schema, for reliable JSON
--   Prompting --- Clear system message, few-shot examples, delimiters, ask for citations, chain-of-thought for multistep tasks
--   Reflection / self-critique --- Generate → critique (same or judge model) → revise, with a stop condition. LLM-as-judge is how the evaluators work.
--   Observability --- OpenTelemetry tracing to Application Insights. The spans per model call and tool call show the token usage, latency breakdown and safety signals.
--   Hybrid orchestration --- Route by task e.g. small model for classification, big model for reasoning. Use a rules engine for the deterministic compliance checks and the LLM for language.
+### <span id="optimize"></span>Optimize and operationalize
+- __Order of fixes:__ prompt engineering → RAG (knowledge gaps) → fine-tuning (style/format/behavior, or distill to a cheaper model)
+- __Fine-tuning types:__ SFT, DPO (preference), RFT (reasoning models)
+- __Parameters:__
+    + `temperature` or `top_p` = change one, not both
+    + Low temperature for extraction/factual, higher for creative
+    + `max_tokens`, stop sequences, frequency/presence penalties
+    + `reasoning_effort` on reasoning models
+    + Structured outputs (JSON schema) for reliable JSON
+- __Prompting:__ Clear system message, few-shot examples, delimiters, ask for citations, chain-of-thought for multistep tasks.
+- __Reflection / self-critique:__ generate → critique (same or judge model) → revise, with a stop condition. LLM-as-judge is how evaluators work.
+- __Observability:__ OpenTelemetry tracing to Application Insights. Spans per model call and tool call show token usage, latency breakdown, and safety signals.
+- __Hybrid orchestration:__
+    + Route by task (small model for classification, big model for reasoning)
+    + Use a rules engine for deterministic compliance checks and the LLM for language
 
-## Computer Vision
 
-This part contains generating and editing images/video, understanding images and video with multimodal models or Content Understanding, and responsible AI for images.
+## <span id="vision"></span>Computer vision
+Three buckets: generate/edit media, understand media with multimodal models or Content Understanding, and keep it safe.
 
-### Generate and edit:
+### <span id="generate-edit"></span>Generate and edit
+- __Images__ (gpt-image-1 class, FLUX):
+    + Text-to-image
+    + Image + reference images
+    + Edits with a mask (__inpainting__): the transparent area of the mask PNG is what gets regenerated
+    + Controls: size, quality, number of images, background (transparent), output format
+- __Video__ (Sora class):
+    + Text-to-video, image-to-video, and edit/remix an existing video
+    + It is an async job: create job → poll status → download
+    + Controls: resolution, duration, number of variants
+- Generated media carries __C2PA content credentials__ (provenance metadata) so it can be identified as AI-generated.
 
--   Images (gpt-image-1 class, FLUX) --- Text-to-image, image + reference images, and edits with a mask. Controls are size, quality, number of images, background (transparent) and output format.
--   Inpainting --- Editing with a mask. The transparent area of the mask PNG is what gets regenerated.
--   Video (Sora class) --- Text-to-video, image-to-video, and edit/remix of an existing video. Controls are resolution, duration and number of variants.
--   Video is an async job --- Create job → poll status → download
--   C2PA content credentials --- Provenance metadata on the generated media, so it can be identified as AI-generated
+### <span id="understand-media"></span>Understand images and video
+- __Multimodal chat:__ Pass images as `image_url` (public URL or base64 data URI) in the message content.
+    + `detail: low` = cheap, fast
+    + `detail: high` = fine detail, more tokens
+    + Multiple images in one message for comparison
+- __Captions:__ Concise vs detailed is controlled by the prompt (and `max_tokens`).
+- __Alt text:__
+    + Short and functional (about one sentence, no "image of")
+    + Decorative images get empty alt
+    + Complex images (charts) get an extended description
+- __Visual Q&A:__ Instruct the model to answer only from what is visible and say when it can't tell.
+- __Locate objects/regions:__ Content Understanding or Azure AI Vision object detection give bounding boxes. Plain LLM chat is weaker at precise coordinates.
 
-### Understand images and video:
+### <span id="content-understanding"></span>Azure Content Understanding
+A Foundry Tool where you define an analyzer with a field schema (or use a prebuilt one) for documents, images, audio, or video.
 
--   Multimodal chat --- Pass the images as `image_url` (public URL or base64 data URI) in the message content. We can pass multiple images in one message for comparison.
--   Detail --- `low` is cheap and fast, `high` is for fine detail but uses more tokens
--   Captions --- Concise vs detailed is controlled by the prompt (and `max_tokens`)
--   Alt text --- Short and functional (about one sentence, no "image of"). Decorative images get empty alt, complex images e.g. charts get an extended description.
--   Visual Q&A --- Instruct the model to answer only from what is visible, and to say when it can't tell
--   Locating objects/regions --- Content Understanding or Azure AI Vision object detection give the bounding boxes. Plain LLM chat is weaker at precise coordinates.
+- Returns structured fields + markdown, with confidence and grounding.
+- __Video:__ segments, shot/scene detection, key frames, transcript, per-segment fields.
 
-### Azure Content Understanding:
+| Mode | Use when |
+| :--- | :--- |
+| Standard (single-task) | One file, one extraction |
+| Pro | Multi-file, cross-document reasoning, can use reference data for validation; complex, multi-step extraction |
 
--   It is a Foundry Tool where we define an analyzer with a field schema (or use a prebuilt one) for documents, images, audio or video
--   Returns structured fields + markdown, with confidence and grounding
--   Video --- Segments, shot/scene detection, key frames, transcript, per-segment fields
--   Standard (single-task) mode --- One file, one extraction
--   Pro mode --- Multi-file, cross-document reasoning, and can use reference data for validation. Use it for complex, multi-step extraction.
+### <span id="rai-images"></span>Responsible AI for images
+- Content filters apply to image inputs __and__ outputs (hate, sexual, violence, self-harm).
+- __Indirect prompt injection via text in images__ (a photo containing "ignore previous instructions"):
+    + Treat image text as untrusted data
+    + Extract it with OCR and scan with Prompt Shields
+    + Keep system instructions separate
+    + Limit which tools the agent can call
+- __Visual policy rules:__
+    + Watermarks/provenance on generated media
+    + Detect prohibited symbols or brand misuse with custom analyzer fields or custom categories
+    + Block or route for human review
 
-### Responsible AI for images:
 
--   Content filters --- Apply to the image inputs and outputs (hate, sexual, violence, self-harm)
--   Indirect prompt injection via text in images --- e.g. a photo containing "ignore previous instructions". Treat the image text as untrusted data, extract it with OCR and scan with Prompt Shields, keep the system instructions separate, and limit which tools the agent can call.
--   Visual policy rules --- Watermarks/provenance on generated media, detect prohibited symbols or brand misuse with custom analyzer fields or custom categories, then block or route for human review
+## <span id="text-speech"></span>Text analysis and speech
+The recurring question is "LLM prompt or Foundry Tool?"
 
-## Text Analysis and Speech
+- Pick the __Tool__ for standard, repeatable, auditable tasks (PII redaction, sentiment at scale, document translation).
+- Pick the __LLM__ for flexible schemas, nuance, and tone.
 
-This part contains text analysis, translation and speech. The recurring question is "LLM prompt or Foundry Tool?". Pick the Tool for standard, repeatable, auditable tasks e.g. PII redaction, sentiment at scale, document translation. Pick the LLM for flexible schemas, nuance and tone.
+### <span id="text-analysis"></span>Text analysis
+- __Structured JSON from an LLM:__ Use structured outputs (`response_format` with a JSON schema, strict) instead of "please return JSON". Low temperature for extraction.
+- __Azure AI Language__ (Foundry Tool):
+    + NER
+    + PII detection and redaction
+    + Key phrases
+    + Sentiment + opinion mining
+    + Language detection
+    + Summarization
+    + Custom NER/classification
+    + Conversational language understanding (CLU)
+    + Question answering
+- __Safety and sensitive content:__ Azure AI Content Safety for harmful text; Language PII for personal data.
+- __Domain customization__ (compliance summaries, domain extraction):
+    + System prompt with glossary and rules
+    + Few-shot examples
+    + Output schema
+    + Custom NER or fine-tuning if prompts aren't enough
 
-### Text analysis:
+### <span id="translation"></span>Translation
 
--   Structured JSON from an LLM --- Use structured outputs (`response_format` with a JSON schema, strict) instead of "please return JSON". Low temperature for extraction.
--   Azure AI Language (Foundry Tool) --- NER, PII detection and redaction, key phrases, sentiment + opinion mining, language detection, summarization, custom NER/classification, conversational language understanding (CLU), question answering
--   Safety and sensitive content --- Azure AI Content Safety for harmful text, Language PII for personal data
--   Domain customization --- System prompt with glossary and rules, few-shot examples, output schema. Custom NER or fine-tuning if the prompts aren't enough.
+| Need | Pick |
+| :--- | :--- |
+| Translate strings in real time, many target languages in one call | Azure Translator text translation |
+| Translate whole files, keep formatting | Translator document translation (async, Blob Storage source/target, managed identity) |
+| Company terminology | Custom Translator (train on parallel data) or glossary |
+| Tone, style, context-aware rewrites | LLM-powered translation flow |
 
-### Translation:
+### <span id="speech"></span>Speech
+- __Speech to text:__
+    + Real-time (streaming)
+    + Fast transcription (synchronous, files)
+    + Batch (large volumes, async)
+    + Diarization for who-spoke-when
+- __Accuracy on domain terms:__
+    + __Phrase list__ first (no training, quick)
+    + __Custom speech model__ (train with text and audio) when accents, noise, or vocabulary need more
+- __Text to speech:__
+    + Neural voices
+    + __SSML__ controls pronunciation, pauses, rate, pitch, speaking style
+    + Custom neural voice is limited access (approval needed)
+- __Speech as an agent modality:__
+    + Voice Live API (low-latency speech-to-speech, can front a Foundry agent)
+    + Realtime audio models
+    + The classic STT → agent → TTS pipeline
+    + Handle barge-in and turn detection
+- __Reasoning over audio:__ Audio-input models, or Content Understanding audio analyzers (transcript + extracted fields).
+- __Speech translation:__ Speech service translation (speech to text/speech in target languages) or STT → LLM translate → TTS.
 
--   Azure Translator text translation --- Translate strings in real time, many target languages in one call
--   Translator document translation --- Translate whole files and keep the formatting. It is async, with Blob Storage as source/target and managed identity.
--   Custom Translator or glossary --- For company terminology. Custom Translator is trained on parallel data.
--   LLM-powered translation flow --- Tone, style, context-aware rewrites
 
-### Speech:
+## <span id="info-extraction"></span>Information extraction
+This is Azure AI Search plumbing plus Content Understanding for documents. Know the indexer pipeline order and the four query types.
 
--   Speech to text --- Real-time (streaming), fast transcription (synchronous, files), batch (large volumes, async)
--   Diarization --- Who spoke when
--   Phrase list --- First thing to try for accuracy on domain terms. No training, quick.
--   Custom speech model --- Trained with text and audio. Use it when accents, noise or vocabulary need more than a phrase list.
--   Text to speech --- Neural voices
--   SSML --- Controls pronunciation, pauses, rate, pitch, speaking style
--   Custom neural voice --- Limited access, approval is needed
--   Speech as an agent modality --- Voice Live API (low-latency speech-to-speech, can front a Foundry agent), realtime audio models, or the classic STT → agent → TTS pipeline. Handle barge-in and turn detection.
--   Reasoning over audio --- Audio-input models, or Content Understanding audio analyzers (transcript + extracted fields)
--   Speech translation --- Speech service translation (speech to text/speech in the target languages) or STT → LLM translate → TTS
+### <span id="search-pipeline"></span>Azure AI Search pipeline
+- __Data source:__ Blob, ADLS, SQL, Cosmos DB, SharePoint, etc.
+- __Indexer:__ Pulls on a schedule, change and deletion detection, field mappings. Check execution history for errors/warnings.
+- __Skillset__ (enrichment):
+    + Built-in skills:
+        * OCR
+        * Image Analysis
+        * Document Layout (layout-aware, markdown chunks)
+        * Text Split (chunking)
+        * Text Merge (put OCR text back into content)
+        * Entity recognition, key phrases, language detection
+        * Azure OpenAI Embedding
+    + Custom skill: Web API skill (usually an Azure Function) with a fixed JSON input/output contract
+- __Index:__
+    + Fields with attributes: key, searchable, filterable, sortable, facetable, retrievable
+    + Vector fields with dimensions matching the embedding model
+    + Vector profile: HNSW for speed, exhaustive KNN for exact
+- __Knowledge store__ (optional): Projections of enriched data to Blob/Table storage.
+- __Integrated vectorization__ = chunking + embedding inside the indexer, and a vectorizer on the index so queries get embedded automatically. Pick it for "least code" RAG ingestion.
 
-## Information Extraction
+### <span id="query-types"></span>Query types
 
-This part contains the Azure AI Search plumbing plus Content Understanding for documents. Know the indexer pipeline order and the four query types.
+| Type | What it does | Choose when |
+| :--- | :--- | :--- |
+| Full-text (BM25) | Keyword matching | Exact terms, IDs, codes |
+| Vector | Similarity on embeddings | Meaning, paraphrase, multilingual, images |
+| Hybrid | Both, merged with Reciprocal Rank Fusion | Default best for RAG |
+| Semantic ranker | Re-ranks top results with a language model; captions and answers | Best relevance; needs a semantic configuration |
 
-### Azure AI Search pipeline:
+- Best-practice RAG answer: __hybrid + semantic ranker__.
+- Tune with chunk size/overlap, scoring profiles, filters (security trimming), and query rewriting.
 
--   Data source --- Blob, ADLS, SQL, Cosmos DB, SharePoint etc.
--   Indexer --- Pulls on a schedule, change and deletion detection, field mappings. Check the execution history for errors/warnings.
--   Skillset --- The enrichment step, made of built-in and custom skills
--   Index --- Fields with attributes (key, searchable, filterable, sortable, facetable, retrievable). Vector fields with dimensions matching the embedding model + a vector profile (HNSW for speed, exhaustive KNN for exact).
--   Knowledge store (optional) --- Projections of the enriched data to Blob/Table storage
+### <span id="multimodal-ingestion"></span>Multimodal ingestion
+- __Scanned PDFs/images:__ OCR skill (+ Text Merge) or Document Layout skill, or Content Understanding upstream.
+- __Images as content:__ Image verbalization (caption with a multimodal model, embed the text) or multimodal embeddings.
+- __Audio/video:__ Transcribe (Speech / Content Understanding), then index the text with timestamps.
 
-### Skills:
+### <span id="retrieval-agents"></span>Connect retrieval to agents
+- Add the Azure AI Search tool to the agent via a project connection.
+- Set:
+    + Index
+    + Query type (simple, vector, hybrid, semantic, hybrid + semantic)
+    + top-k
+    + Filter
+- For multi-part questions use agentic retrieval / knowledge bases.
 
--   Built-in skills --- OCR, Image Analysis, Document Layout (layout-aware, markdown chunks), Text Split (chunking), Text Merge (puts the OCR text back into the content), entity recognition, key phrases, language detection, Azure OpenAI Embedding
--   Custom skill --- Web API skill (usually an Azure Function) with a fixed JSON input/output contract
--   Integrated vectorization --- Chunking + embedding inside the indexer, and a vectorizer on the index so the queries get embedded automatically. Pick it for "least code" RAG ingestion.
+### <span id="extract-docs"></span>Extract content from documents
+- __Content Understanding:__ Multimodal pipeline (OCR + layout + field extraction) driven by an analyzer schema. The AI-103 favorite.
+    + Outputs markdown (clean for RAG and agents)
+    + Outputs structured JSON fields with confidence and source grounding
+- __Document Intelligence:__ Still valid when a prebuilt model matches exactly.
+    + Prebuilt models: invoice, receipt, ID, layout, read
+    + Custom template/neural models
+- Low confidence on a field → route to human review.
 
-### Query types:
 
--   Full-text (BM25) --- Keyword matching. Choose for exact terms, IDs, codes.
--   Vector --- Similarity on embeddings. Choose for meaning, paraphrase, multilingual, images.
--   Hybrid --- Both, merged with Reciprocal Rank Fusion (RRF). The default best for RAG.
--   Semantic ranker --- Re-ranks the top results with a language model, also gives captions and answers. Best relevance, but needs a semantic configuration.
+## <span id="x-pick-y"></span>If the question says X, pick Y
+Keywords in the question stem usually point straight at one answer. Read this the night before and the morning of.
 
-Note: The best-practice RAG answer is hybrid + semantic ranker. Tune with chunk size/overlap, scoring profiles, filters (security trimming) and query rewriting.
+| Question stem says | Answer is usually |
+| :--- | :--- |
+| "Data must stay in the EU/US" + pay per token | Data Zone Standard deployment |
+| "Predictable latency", "consistent high throughput" | Provisioned (PTU) deployment |
+| "Millions of docs overnight", "lowest cost", "not time-sensitive" | Global Batch |
+| "429 Too Many Requests" | Retry with backoff + `retry-after`; raise quota; add deployments behind APIM |
+| "Without storing keys", "most secure auth" | Managed identity + Entra ID (`DefaultAzureCredential`), disable local auth |
+| "No public internet access" | Private endpoints + disable public network access (+ Standard agent setup with BYO resources) |
+| "Agent answers from a few PDFs, least effort" | File Search tool |
+| "Agent answers from existing enterprise index" | Azure AI Search tool |
+| "Latest news", "current prices" | Grounding with Bing / web search tool |
+| "Compute", "analyze a CSV", "make a chart" | Code Interpreter |
+| "Existing REST API with OpenAPI 3 spec" | OpenAPI tool |
+| "Reuse tools across agents via an open protocol" | MCP tool |
+| "Human must approve before the action" | `require_approval` on the tool / approval step in the workflow |
+| "Orchestrator delegates to specialist agents" | Connected agents (or a handoff/sequential workflow) |
+| "Answer invents facts", "fabrication" | Groundedness evaluation + groundedness detection; improve retrieval |
+| "User tries to jailbreak" | Prompt Shields (user prompt attacks) |
+| "Malicious instructions hidden in a document/email/image" | Prompt Shields (indirect/document attacks); treat content as data |
+| "Output reproduces song lyrics or licensed code" | Protected material detection |
+| "Reliable JSON matching a schema" | Structured outputs (JSON schema) |
+| "Deterministic, less creative output" | Lower temperature |
+| "Best relevance for RAG" | Hybrid search + semantic ranker |
+| "Least code to chunk and embed on ingest" | Integrated vectorization (Text Split + embedding skill + vectorizer) |
+| "Scanned PDFs in the index" | OCR skill + Text Merge, or Document Layout skill |
+| "Custom logic during indexing" | Custom Web API skill (Azure Function) |
+| "Extract fields + markdown from docs/images/video for agents" | Content Understanding analyzer |
+| "Cross-document reasoning, validate against reference data" | Content Understanding pro mode |
+| "Edit only part of an image" | Image edit with a mask (inpainting) |
+| "Redact PII at scale" | Azure AI Language PII detection |
+| "Translate Word/PDF, keep formatting" | Translator document translation |
+| "Speech misrecognizes product names" | Phrase list first, then custom speech |
+| "Change pronunciation, pauses, voice style" | SSML |
+| "Low-latency voice agent" | Voice Live API / realtime audio model |
+| "Trace latency per tool call and token usage" | OpenTelemetry tracing to Application Insights |
+| "Run evals automatically before deploy" | Evaluation step in CI/CD (GitHub Actions / Azure DevOps) |
 
-### Multimodal ingestion:
 
--   Scanned PDFs/images --- OCR skill (+ Text Merge) or Document Layout skill, or Content Understanding upstream
--   Images as content --- Image verbalization (caption with a multimodal model, then embed the text) or multimodal embeddings
--   Audio/video --- Transcribe (Speech / Content Understanding), then index the text with timestamps
+## <span id="traps"></span>Common traps
+- __Function calling does not run your code.__ The model returns the call; your app executes it and submits the output. The OpenAPI and MCP tools are the ones the service calls for you.
+- __File Search vs Azure AI Search tool:__
+    + File Search = you upload files, the service builds the vector store
+    + AI Search tool = you already own and manage an index
+- __Hybrid is not semantic.__ Hybrid = keyword + vector merged by RRF. Semantic ranker is a separate re-ranking layer on top.
+- __Vector field dimensions__ must match the embedding model's output size. A mismatch breaks indexing.
+- __Temperature and top_p:__ Tune one, not both.
+- __Fine-tuning does not add fresh knowledge well.__
+    + Knowledge gaps → RAG
+    + Style/format/behavior → fine-tuning
+- __Global Standard is not a residency answer.__ Residency → Data Zone or Regional.
+- __API keys__ are never the "most secure" answer when managed identity is offered.
+- __Content filters are not just output filters.__ They check prompts and completions. Prompt Shields handle jailbreaks and indirect attacks specifically.
+- __Old names in answers:__ "Azure OpenAI Service", "Azure AI Studio", "hub-based project", "Cognitive Services" may appear.
+    + Map them to Foundry resource/project/Tools
+    + Prefer the Foundry-native option when both are listed
 
-### Connect retrieval to agents:
 
--   Add the Azure AI Search tool to the agent via a project connection
--   Set the index, query type (simple, vector, hybrid, semantic, hybrid + semantic), top-k and filter
--   For multi-part questions use agentic retrieval / knowledge bases
+## <span id="self-check"></span>Self-check questions
 
-### Extract content from documents:
+| Question | Answer |
+| :--- | :--- |
+| Your agent must summarize incoming emails, and attackers embed instructions in email bodies. What detects it? | Prompt Shields, indirect (document) attack detection |
+| You need 99th-percentile latency guarantees for a chat app with steady load. Deployment type? | Provisioned (PTU) |
+| Agent must look up order status from your internal service that runs in your app process. Tool? | Function calling |
+| RAG answers cite the wrong chunks. First fix? | Hybrid search + semantic ranker, then tune chunk size/overlap |
+| Which evaluator measures whether answers are supported by retrieved context? | Groundedness |
+| Agent threads and files must be stored in your own Cosmos DB and Storage accounts. Setup? | Standard agent setup (bring your own resources) |
+| Extract invoice fields and a markdown version of each invoice for an agent, validating totals against a price list. | Content Understanding, pro mode with reference data |
+| Replace the sky in a product photo but keep everything else. | Image edit with a mask (inpainting) |
+| Call center STT keeps missing drug names; no training data yet. | Phrase list |
+| A deployed agent is slow; you need to see which tool call takes longest. | Tracing (OpenTelemetry → Application Insights), inspect spans |
+| Which Search query type merges BM25 and vector results? | Hybrid (Reciprocal Rank Fusion) |
+| Least-code way to chunk and embed blobs during indexing? | Integrated vectorization |
 
--   Content Understanding --- Multimodal pipeline (OCR + layout + field extraction) driven by an analyzer schema. It outputs markdown (clean for RAG and agents) and structured JSON fields with confidence and source grounding. This is the AI-103 favorite.
--   Document Intelligence --- Prebuilt models (invoice, receipt, ID, layout, read) and custom template/neural models. Still valid when a prebuilt model matches exactly.
--   Low confidence on a field --- Route to human review
 
-## If the question says X, pick Y
-
-This part contains the keywords which usually point straight at one answer. Good to read the night before and the morning of the exam.
-
-### Deployments, quota and security:
-
--   "Data must stay in the EU/US" + pay per token --- Data Zone Standard deployment
--   "Predictable latency", "consistent high throughput" --- Provisioned (PTU) deployment
--   "Millions of docs overnight", "lowest cost", "not time-sensitive" --- Global Batch
--   "429 Too Many Requests" --- Retry with backoff + `retry-after`, raise the quota, add deployments behind APIM
--   "Without storing keys", "most secure auth" --- Managed identity + Entra ID (`DefaultAzureCredential`), disable local auth
--   "No public internet access" --- Private endpoints + disable public network access (+ Standard agent setup with BYO resources)
-
-### Agents and tools:
-
--   "Agent answers from a few PDFs, least effort" --- File Search tool
--   "Agent answers from existing enterprise index" --- Azure AI Search tool
--   "Latest news", "current prices" --- Grounding with Bing / web search tool
--   "Compute", "analyze a CSV", "make a chart" --- Code Interpreter
--   "Existing REST API with OpenAPI 3 spec" --- OpenAPI tool
--   "Reuse tools across agents via an open protocol" --- MCP tool
--   "Human must approve before the action" --- `require_approval` on the tool / approval step in the workflow
--   "Orchestrator delegates to specialist agents" --- Connected agents (or a handoff/sequential workflow)
-
-### Safety, evals and output:
-
--   "Answer invents facts", "fabrication" --- Groundedness evaluation + groundedness detection, and improve the retrieval
--   "User tries to jailbreak" --- Prompt Shields (user prompt attacks)
--   "Malicious instructions hidden in a document/email/image" --- Prompt Shields (indirect/document attacks), treat the content as data
--   "Output reproduces song lyrics or licensed code" --- Protected material detection
--   "Reliable JSON matching a schema" --- Structured outputs (JSON schema)
--   "Deterministic, less creative output" --- Lower temperature
--   "Trace latency per tool call and token usage" --- OpenTelemetry tracing to Application Insights
--   "Run evals automatically before deploy" --- Evaluation step in CI/CD (GitHub Actions / Azure DevOps)
-
-### Search and extraction:
-
--   "Best relevance for RAG" --- Hybrid search + semantic ranker
--   "Least code to chunk and embed on ingest" --- Integrated vectorization (Text Split + embedding skill + vectorizer)
--   "Scanned PDFs in the index" --- OCR skill + Text Merge, or Document Layout skill
--   "Custom logic during indexing" --- Custom Web API skill (Azure Function)
--   "Extract fields + markdown from docs/images/video for agents" --- Content Understanding analyzer
--   "Cross-document reasoning, validate against reference data" --- Content Understanding pro mode
-
-### Vision, text and speech:
-
--   "Edit only part of an image" --- Image edit with a mask (inpainting)
--   "Redact PII at scale" --- Azure AI Language PII detection
--   "Translate Word/PDF, keep formatting" --- Translator document translation
--   "Speech misrecognizes product names" --- Phrase list first, then custom speech
--   "Change pronunciation, pauses, voice style" --- SSML
--   "Low-latency voice agent" --- Voice Live API / realtime audio model
-
-## Common Traps
-
-This part contains the things which are easy to mix up in the exam.
-
--   Function calling does not run your code --- The model returns the call, your app executes it and submits the output. The OpenAPI and MCP tools are the ones the service calls for you.
--   File Search vs Azure AI Search tool --- File Search is when you upload the files and the service builds the vector store. AI Search tool is when you already own and manage an index.
--   Hybrid is not semantic --- Hybrid is keyword + vector merged by RRF. Semantic ranker is a separate re-ranking layer on top.
--   Vector field dimensions --- Must match the embedding model's output size, a mismatch breaks the indexing
--   Temperature and top_p --- Tune one, not both
--   Fine-tuning does not add fresh knowledge well --- Knowledge gaps → RAG. Style/format/behavior → fine-tuning.
--   Global Standard is not a residency answer --- Residency → Data Zone or Regional
--   API keys --- Never the "most secure" answer when managed identity is offered
--   Content filters are not just output filters --- They check both the prompts and the completions. Prompt Shields handle the jailbreaks and indirect attacks specifically.
--   Old names in the answers --- "Azure OpenAI Service", "Azure AI Studio", "hub-based project", "Cognitive Services" may appear. Map them to Foundry resource/project/Tools, and prefer the Foundry-native option when both are listed.
-
-## Self-check Questions
-
-This part contains some quick questions to test yourself before the exam. The answer is after the arrow.
-
--   Your agent must summarize incoming emails, and attackers embed instructions in the email bodies. What detects it? → Prompt Shields, indirect (document) attack detection
--   You need 99th-percentile latency guarantees for a chat app with steady load. Deployment type? → Provisioned (PTU)
--   Agent must look up order status from your internal service that runs in your app process. Tool? → Function calling
--   RAG answers cite the wrong chunks. First fix? → Hybrid search + semantic ranker, then tune chunk size/overlap
--   Which evaluator measures whether the answers are supported by the retrieved context? → Groundedness
--   Agent threads and files must be stored in your own Cosmos DB and Storage accounts. Setup? → Standard agent setup (bring your own resources)
--   You must extract invoice fields and a markdown version of each invoice for an agent, validating the totals against a price list → Content Understanding, pro mode with reference data
--   Replace the sky in a product photo but keep everything else → Image edit with a mask (inpainting)
--   Call center STT keeps missing drug names, no training data yet → Phrase list
--   A deployed agent is slow, you need to see which tool call takes the longest → Tracing (OpenTelemetry → Application Insights), inspect the spans
--   Which Search query type merges BM25 and vector results? → Hybrid (Reciprocal Rank Fusion)
--   Least-code way to chunk and embed blobs during indexing? → Integrated vectorization
-
-## Resources
-
--   [Microsoft study guide for Exam AI-103](https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-103) (skills measured as of April 16, 2026)
--   [Foundry Agent Service tool catalog](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/tool-catalog)
--   [Foundry Agent Service tools overview (classic)](https://learn.microsoft.com/en-us/azure/foundry-classic/agents/how-to/tools-classic/overview)
--   [What's new in Microsoft Foundry](https://learn.microsoft.com/en-us/azure/foundry/whats-new-foundry)
--   [Connect an Azure AI Search index to Foundry agents](https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/ai-search)
+## <span id="resources"></span>Resources
+- [Microsoft study guide for Exam AI-103](https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-103) (skills measured as of April 16, 2026)
+- [Foundry Agent Service tool catalog](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/tool-catalog)
+- [Foundry Agent Service tools overview (classic)](https://learn.microsoft.com/en-us/azure/foundry-classic/agents/how-to/tools-classic/overview)
+- [What's new in Microsoft Foundry](https://learn.microsoft.com/en-us/azure/foundry/whats-new-foundry)
+- [Connect an Azure AI Search index to Foundry agents](https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/ai-search)
